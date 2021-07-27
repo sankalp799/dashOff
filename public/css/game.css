@@ -1,0 +1,475 @@
+:root {
+    --blue: rgba(255, 255, 255, 0.27);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    font-family: system-ui;
+    background-image: radial-gradient(#00000049, transparent), url(./doodle1.jpg);
+    background-position: center;
+    background-size: cover;
+    animation: animatedBackground 18s linear infinite alternate;
+}
+
+@keyframes animatedBackground {
+    from {
+        background-position: 0% 0%;
+    }
+    to {
+        background-position: 100% 100%;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.664);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.52);
+}
+
+body {
+    max-width: 1920px;
+}
+
+.header,
+.wrapper,
+.footer {
+    background: radial-gradient(#00000046, #00000034);
+    position: relative;
+    width: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 40px;
+}
+
+.header {
+    margin-top: 2.5rem;
+    font-size: 300%;
+    border-bottom: 10px solid #fff;
+}
+
+.wrapper {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+
+/************
+INDEX-PAGE-STYLE
+*******/
+
+form {
+    padding: 40px;
+    width: 90%;
+}
+
+label {
+    font-size: 140%;
+}
+
+.usernameField,
+select {
+    padding: 10px 20px;
+    outline: none;
+    border-radius: 5px;
+    font-family: system-ui;
+    font-size: 110%;
+    text-align: center;
+    position: relative;
+    transform: translateX(-50%);
+}
+
+.usernameField {
+    left: 40%;
+}
+
+.game-counter-select {
+    left: 35%;
+}
+
+.game-round-select {
+    left: 25%;
+}
+
+.createRoomBtn {
+    text-align: center;
+    padding: 10px 20px;
+    margin-top: 30px;
+    outline: none;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    cursor: pointer;
+    font-size: 110%;
+    border-radius: 5px;
+    border: none;
+}
+
+.room-link {
+    visibility: hidden;
+    padding: 20px 40px;
+    margin-top: 30px;
+    cursor: grab;
+    background-color: #fff;
+    color: #111;
+    height: 3vh;
+}
+
+.room-link.active {
+    visibility: visible;
+}
+
+
+/*********
+GAME-STYLE
+***********/
+
+.count_down_audio,
+audio {
+    display: none;
+}
+
+.paint-tools-wrapper {
+    width: 30%;
+}
+
+.paint-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chat-wrapper,
+.word-letters,
+.players,
+.paint-tools-wrapper {
+    background-color: rgba(40, 40, 40, 0.5);
+}
+
+.players div,
+.chat-wrapper div,
+.overlay-main-content div {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-bottom: 2px;
+    background-color: var(--blue);
+}
+
+.game-wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.paint-wrapper {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.score-and-chat-wrapper {
+    width: 25%;
+}
+
+canvas {
+    background-color: #fff;
+}
+
+.paint-tools-wrapper {
+    height: 10vh;
+    width: 100%;
+}
+
+.word-letters {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 5vh;
+    margin-bottom: 10px;
+}
+
+.rounds-username {
+    position: relative;
+    width: 30%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.game-word {
+    width: 60%;
+}
+
+.timer {
+    border: 3px solid transparent;
+    padding: 10px;
+    animation-duration: 600ms;
+    animation-timing-function: step-start;
+    animation-iteration-count: infinite;
+}
+
+@keyframes hurryUp {
+    0% {
+        border-color: #fff;
+    }
+    49% {
+        border-color: #fff;
+    }
+    60% {
+        border-color: transparent;
+    }
+    99% {
+        border-color: transparent;
+    }
+    100% {
+        border-color: #fff;
+    }
+}
+
+.username,
+.timer,
+.game-word {
+    position: relative;
+    top: 50%;
+    height: fit-content;
+    transform: translateY(-50%);
+}
+
+.players {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 45%;
+    width: 100%;
+}
+
+.chat-box {
+    height: 55%;
+}
+
+.chat-wrapper {
+    overflow-y: scroll;
+    width: 100%;
+    height: 90%;
+}
+
+.chat-box,
+.paint-tools-wrapper {
+    margin-top: 15px;
+}
+
+.send-message-wrapper {
+    height: 10%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.textbox {
+    padding: 3px;
+    border: none;
+    outline: none;
+    height: 50%;
+    border-radius: 2px;
+    width: 60%;
+    height: 80%;
+}
+
+.messageSubmitBtn {
+    background-color: white;
+    height: 80%;
+    border: none;
+    width: 30%;
+    font-family: system-ui;
+    font-size: 80%;
+    padding: 3px;
+}
+
+
+/**********
+OVERLAY-STYLE
+*******/
+
+.overlay {
+    overflow: hidden;
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.overlay-content-wrapper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 80%;
+    height: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes overlayAnimation {
+    from {
+        left: 50%;
+        top: 100%;
+    }
+    to {
+        left: 50%;
+        top: 50%;
+    }
+}
+
+.overlay-content-wrapper h2 {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    font-size: 200%;
+    color: white;
+    font-family: system-ui;
+}
+
+.overlay-main-content {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 30%;
+    display: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.overlay-main-content.active {
+    display: block;
+}
+
+.overlay-main-content div {
+    width: 100%;
+    cursor: pointer;
+    font-size: 100%;
+    text-align: center;
+}
+
+.overlay-btn {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: fit-content;
+    font-size: 200%;
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    background-color: green;
+    color: white;
+    font-family: system-ui;
+    cursor: pointer;
+}
+
+.overlay-btn.active {
+    display: block;
+}
+
+.join-room-div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.join-room-div input {
+    text-align: center;
+    padding: 15px 30px;
+    font-size: 100%;
+    font-family: system-ui;
+}
+
+.join-room-div button {
+    padding: 5px 30px;
+    font-size: 100%;
+    font-family: system-ui;
+    background-color: white;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+
+
+/**************
+PAINT-TOOLS-STYLE
+********/
+
+.color-picker {}
+
+.strokeRange {}
+
+
+/****************
+LINK-TEXT-COPY-STYLE
+****/
+
+.overlay-content-wrapper h2 {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#game-link {
+    width: 80%;
+    border: 1px solid;
+    border-right: none;
+    animation-duration: 1000ms;
+    animation-delay: 240ms;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+
+.copy-link-btn-container {
+    width: 10%;
+    border: 1px solid;
+    text-align: center;
+    align-items: center;
+}
+
+.fa-clone {
+    font-size: 80%;
+    cursor: pointer;
+}
+
+.fa-clone:hover {
+    color: rgb(160, 160, 160);
+}

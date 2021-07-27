@@ -1,0 +1,144 @@
+@media only screen and (max-width: 1920px) {
+    .header,
+    .wrapper,
+    .footer {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 1600px) {
+    .header,
+    .wrapper,
+    .footer {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 1336px) {
+    html {
+        font-size: 18px;
+    }
+    .header,
+    .wrapper,
+    .footer {
+        width: 75%;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    html {
+        font-size: 16px;
+    }
+    .header,
+    .wrapper,
+    .footer {
+        width: 80%;
+    }
+    input[type=text] {
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .score-and-chat-wrapper {
+        width: 60%;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .chat-box {
+        height: 30vh;
+    }
+    .game-wrapper {
+        display: block;
+    }
+    html {
+        font-size: 16px;
+    }
+    .header,
+    .wrapper,
+    .footer {
+        width: 80%;
+    }
+    input[type=text] {
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    .score-and-chat-wrapper {
+        width: 80%;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .chat-box {
+        height: 30vh;
+    }
+    .game-wrapper {
+        display: block;
+    }
+    .header,
+    .wrapper,
+    .footer {
+        width: 90%;
+    }
+    input[type=text] {
+        width: 30%;
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    html {
+        font-size: 12px;
+    }
+    .score-and-chat-wrapper {
+        width: 80%;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .chat-box {
+        height: 30vh;
+    }
+    .game-wrapper {
+        display: block;
+    }
+    input[type=text] {
+        width: 30%;
+    }
+    .header,
+    .wrapper,
+    .footer {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .header,
+    .wrapper,
+    .footer {
+        width: 100%;
+    }
+    .game-wrapper {
+        display: block;
+    }
+    input[type=text] {
+        width: 30%;
+    }
+    .score-and-chat-wrapper {
+        width: 90%;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .chat-box {
+        height: 30vh;
+    }
+    html {
+        font-size: 14px;
+    }
+}
