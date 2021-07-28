@@ -109,7 +109,8 @@ messageHandler.newRound = (round) => {
 };
 
 messageHandler.showPlayerList = (data) => {
-    let list = typeof(data.message) !== 'undefined' && data.message instanceof Array ? data.message : false;
+    let list = typeof(data.message.list) !== 'undefined' && data.message.list instanceof Array ? data.message.list : false;
+    let drawing_player_port = data.message.drawing_player_port !== null ? data.message.drawing_player_port : false;
     if (list) {
         playersList.innerHTML = '';
 
@@ -120,6 +121,11 @@ messageHandler.showPlayerList = (data) => {
 
         sortedList.forEach(player => {
             let playerDiv = `<div>${player.username}: ${player.score}</div>`;
+            if(drawing_player_port){
+                if(drawinplayerDrawing.port == player.port){
+                    playerDiv.style.color = 'yellow';
+                }
+            }
             playersList.insertAdjacentHTML('beforeend', playerDiv);
         });
     }
@@ -312,16 +318,12 @@ messageHandler.showGuessResult = (data) => {
         return b.current_score - a.current_score;
     });
 
-    overlayHeading.innerText = 'Round Result';
+    overlayHeading.innerText = 'Time Out';
     overlayContentBox.innerHTML = '';
 
     sorted_data.forEach((player) => {
         let playerDiv = document.createElement('div');
-        playerDiv.innerText = (sorted_data.indexOf(player) + 1) + '. ' + player.username + ':  ' + player.current_score;
-        playerDiv.style.color = 'red';
-        if (player.gussed) {
-            playerDiv.style.color = 'green';
-        }
+        playerDiv.innerText = (sorted_data.indexOf(player) + 1) + '. ' + player.username + ':  +' + player.current_score;
         overlayContentBox.insertAdjacentElement('beforeend', playerDiv);
     });
 };

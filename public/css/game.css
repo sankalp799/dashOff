@@ -358,6 +358,7 @@ OVERLAY-STYLE
     font-size: 200%;
     color: white;
     font-family: system-ui;
+    justify-content: center;
 }
 
 .overlay-main-content {
