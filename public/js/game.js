@@ -8,8 +8,8 @@ let USER = {
     username: username
 };
 
-// socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
-socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
+socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
+// socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
 
 // play with socket
 if (socket !== null) {
