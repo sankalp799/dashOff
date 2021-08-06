@@ -198,6 +198,28 @@ messageHandler.joinLater = (msg) => {
 };
 
 
+let definitionRequest = async (word, data) => {
+    const word_meaning = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en_US/${word}`, data);
+    return word_meaning.json();
+};
+
+
+    let extract_meaning = (word, data) => {
+
+        let choosen_word = document.getElementById('gameWord').innerText;
+        
+        let definition = definitionRequest(word, data)
+        .then(data => {
+            
+            document.getElementById('wordDefinition').innerText = `${data[0].meanings[0].definitions[0].definition}`;
+
+            console.log(data[0].meanings[0].definitions[0].definition);
+        });
+    };
+        
+
+
+
 messageHandler.chooseWord = (list, callback) => {
     let user = {
         id: localStorage.getItem('roomId'),
@@ -240,14 +262,18 @@ messageHandler.chooseWord = (list, callback) => {
             __WORD = evt.target.innerText;
             __CHOOSEN = true;
             sub_send_word(returnMsg);
+            extract_meaning(evt.target.innerText, {});
         });
     });
 
     setTimeout(() => {
         if (!__CHOOSEN) {
             sub_send_word(returnMsg);
+            extract_meaning(returnMsg.message, {});
         }
     }, 10 * 1000);
+    
+    
 };
 
 messageHandler.callGameOver = (list) => {
