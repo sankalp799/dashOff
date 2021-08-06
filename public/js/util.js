@@ -100,6 +100,7 @@ messageHandler.genMessage = (mtype, user, msg) => {
 };
 
 messageHandler.newRound = (round) => {
+    document.getElementById('wordDefinition').innerText = '';
     if (!overlay.classList.contains('active')) {
         overlay.classList.add('active');
     }
@@ -271,8 +272,10 @@ messageHandler.chooseWord = (list, callback) => {
             sub_send_word(returnMsg);
             extract_meaning(returnMsg.message, {});
         }
+        setTimeout(() => {
+            document.getElementById('wordDefinition').innerText = '';
+        }, 15 * 1000);
     }, 10 * 1000);
-    
     
 };
 
