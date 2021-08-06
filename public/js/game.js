@@ -8,15 +8,14 @@ let USER = {
     username: username
 };
 
-socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
-// socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
+// socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
+socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
 
 // play with socket
 if (socket !== null) {
     console.log('connected');
     socket.onmessage = (evt) => {
         let parsedData = JSON.parse(evt.data);
-        console.log(parsedData);
         if (localStorage.getItem('roomId') == parsedData.roomId) {
             switch (parsedData.type) {
                 case typeMessage.NEW_CONNECTION:

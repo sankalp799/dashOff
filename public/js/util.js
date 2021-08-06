@@ -109,8 +109,10 @@ messageHandler.newRound = (round) => {
 };
 
 messageHandler.showPlayerList = (data) => {
+    console.log('list_data_raw: ', data);
     let list = typeof(data.message.list) !== 'undefined' && data.message.list instanceof Array ? data.message.list : false;
     let drawing_player_port = data.message.drawing_player_port !== null ? data.message.drawing_player_port : false;
+    console.log('list-->>> ', list, drawing_player_port);
     if (list) {
         playersList.innerHTML = '';
 
@@ -118,14 +120,8 @@ messageHandler.showPlayerList = (data) => {
         let sortedList = list.sort((a, b) => {
             return b.score - a.score;
         });
-
         sortedList.forEach(player => {
             let playerDiv = `<div>${player.username}: ${player.score}</div>`;
-            if(drawing_player_port){
-                if(drawinplayerDrawing.port == player.port){
-                    playerDiv.style.color = 'yellow';
-                }
-            }
             playersList.insertAdjacentHTML('beforeend', playerDiv);
         });
     }
