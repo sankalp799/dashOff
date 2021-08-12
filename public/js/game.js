@@ -11,6 +11,13 @@ let USER = {
 socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
 // socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
 
+let sendRawToServer = (msg) => {
+    if (socket) {
+        msg = JSON.stringify(msg);
+        socket.send(msg);
+    }
+};
+
 // play with socket
 if (socket !== null) {
     console.log('connected');
@@ -93,9 +100,7 @@ if (socket !== null) {
 }
 
 
-
-// chat with other users
-sendMessageBtn.addEventListener('click', (evt) => {
+let chatBuddy = (evt) => {
     evt.preventDefault();
     let message = messageText.value;
     messageText.value = '';
@@ -107,11 +112,15 @@ sendMessageBtn.addEventListener('click', (evt) => {
             socket.send(chat);
         }
     }
+}
+
+// chat with other users
+sendMessageBtn.addEventListener('click', chatBuddy);
+
+document.getElementById('message-textbox').addEventListener('keydown', (evt) => {
+    if(evt.key == 'Enter'){
+        console.log('Enter Chat');
+        chatBuddy(evt);
+    }
 });
 
-let sendRawToServer = (msg) => {
-    if (socket) {
-        msg = JSON.stringify(msg);
-        socket.send(msg);
-    }
-};
