@@ -65,9 +65,9 @@ messageHandler.newChat = (data) => {
     if (data.type == typeMessage.CHAT) {
         let Chat_Msg = data.username + ': ' + chat.innerText;
         chat.style.color = 'white';
-        chat.style.fontSize = '16px';
-        chat.style.paddingBottom = '2px';
-        chat.style.paddingTop = '2px';
+        chat.style.fontSize = '75%';
+        chat.style.paddingBottom = '1px';
+        chat.style.paddingTop = '1px';
         chat.innerText = Chat_Msg;
     }
     if (data.type == typeMessage.GUSSED) {

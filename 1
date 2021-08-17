@@ -185,13 +185,13 @@ dev.wordList = () => {
     let words = [];
     for(let counter=0; counter<3; counter++){
         let random_index = Math.round(Math.random() * 3);
-        console.log(random_index);
         console.log(random_index + (counter*3));
-        words.push(wordList[random_index + (counter*3)]);
+        wordList[random_index + (counter*3)];
     }
     return words;
 };
-dev.wordList();
+
+console.log(dev.wordList());
 
 dev.setRoomWord = (data, rooms, callback) => {
     let room_index = -1;
