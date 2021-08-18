@@ -91,7 +91,10 @@ app.client.createRoomRequest = () => {
                 if (username.length > 0) {
                     localStorage.setItem('username', username);
                 }
-                console.log(payload);
+                
+        
+                // localStorage.setItem('link', payload.link);
+                localStorage.setItem('link', payload.link.split('/')[1]);
                 let pathName = payload.link.split('/')[1];
                 pathName = pathName.split('=')[1];
                 localStorage.setItem('roomId', pathName);
