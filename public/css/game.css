@@ -328,6 +328,12 @@ OVERLAY-STYLE
     display: block;
 }
 
+.overlay.celebration {
+    background-image: url(public/celebration.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .overlay-content-wrapper {
     display: flex;
     justify-content: center;

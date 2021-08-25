@@ -299,6 +299,10 @@ messageHandler.callGameOver = (list) => {
         player.innerText = (index + 1) + '. ' + list[index].username + ': ' + list[index].score;
         overlayContentBox.insertAdjacentElement('beforeend', player);
     }
+
+    setTimeout(() => {
+        overlay.classList.add('celebration');
+    }, 1500);
 };
 
 messageHandler.waitForPlayerToChoose = (username) => {
