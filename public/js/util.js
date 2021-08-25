@@ -301,6 +301,7 @@ messageHandler.callGameOver = (list) => {
     }
 
     setTimeout(() => {
+        localStorage.clear();
         overlay.classList.add('celebration');
     }, 1500);
 };

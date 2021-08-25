@@ -98,7 +98,7 @@ app.client.createRoomRequest = () => {
                 let pathName = payload.link.split('/')[1];
                 pathName = pathName.split('=')[1];
                 localStorage.setItem('roomId', pathName);
-                window.location.pathname = 'game';
+                window.location.pathname = '/game';
                 /*
                         linkDiv.style.visibility = 'visible';
                         linkDiv.innerText = payload.link;
