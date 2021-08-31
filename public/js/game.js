@@ -1,15 +1,15 @@
 // connection object
 let socket = null;
-let roomId = localStorage.getItem('roomId');
-let username = localStorage.getItem('username');
+let roomId = sessionStorage.getItem('roomId');
+let username = sessionStorage.getItem('username');
 
 let USER = {
     id: roomId,
     username: username
 };
 
-socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
-// socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
+// socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
+socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
 
 let sendRawToServer = (msg) => {
     if (socket) {
@@ -23,7 +23,7 @@ if (socket !== null) {
     console.log('connected');
     socket.onmessage = (evt) => {
         let parsedData = JSON.parse(evt.data);
-        if (localStorage.getItem('roomId') == parsedData.roomId) {
+        if (sessionStorage.getItem('roomId') == parsedData.roomId) {
             switch (parsedData.type) {
                 case typeMessage.NEW_CONNECTION:
                     messageHandler.newChat(parsedData);
@@ -58,7 +58,7 @@ if (socket !== null) {
                     break;
                 case typeMessage.CHOOSE_WORD:
                     (() => {
-                        if (parsedData.from == localStorage.getItem('username')) {
+                        if (parsedData.from == sessionStorage.getItem('username')) {
                             messageHandler.chooseWord(parsedData.message, (wordMsg) => {
                                 sendRawToServer(wordMsg);
                             });
@@ -118,9 +118,8 @@ let chatBuddy = (evt) => {
 sendMessageBtn.addEventListener('click', chatBuddy);
 
 document.getElementById('message-textbox').addEventListener('keydown', (evt) => {
-    if(evt.key == 'Enter'){
+    if (evt.key == 'Enter') {
         console.log('Enter Chat');
         chatBuddy(evt);
     }
 });
-

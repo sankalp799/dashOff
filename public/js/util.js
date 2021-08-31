@@ -10,7 +10,7 @@ let wordDiv = document.getElementById('gameWord');
 let gameRoundDisplay = document.getElementById('gameRoundDisplay');
 
 // username div
-//document.querySelector('.username').innerText = localStorage.getItem('username');
+//document.querySelector('.username').innerText = sessionStorage.getItem('username');
 
 //timer
 let countDown = document.getElementById('countDown');
@@ -62,19 +62,27 @@ messageHandler = {};
 messageHandler.newChat = (data) => {
     let chat = document.createElement('div');
     chat.innerText = '' + data.message;
+
+    // style
+    chat.style.fontSize = '90%';
+    chat.style.paddingBottom = '2px';
+    chat.style.paddingTop = '3px';
+
+    // user chat type 
     if (data.type == typeMessage.CHAT) {
         let Chat_Msg = data.username + ': ' + chat.innerText;
         chat.style.color = 'white';
-        chat.style.fontSize = '75%';
-        chat.style.paddingBottom = '1px';
-        chat.style.paddingTop = '1px';
         chat.innerText = Chat_Msg;
     }
+
+    // system chat type
     if (data.type == typeMessage.GUSSED) {
         guessAudio.play();
         chat.innerText = data.message;
         chat.style.color = 'lightgreen';
     }
+
+    // embed html element
     chatBox.insertAdjacentElement('beforeend', chat);
     chatBox.scrollTo = chatBox.scrollHeight;
 };
@@ -151,15 +159,15 @@ messageHandler.showPlayerJoinedGame = (data, callback) => {
         });
     });
 
-    if (localStorage.getItem('username') == data.host && data.players.length > 1) {
+    if (sessionStorage.getItem('username') == data.host && data.players.length > 1) {
         let startBtn = document.getElementById('startGameBtn');
         if (!startBtn.classList.contains('active')) {
             startBtn.classList.add('active');
         }
         startBtn.addEventListener('click', () => {
             let user = {
-                id: localStorage.getItem('roomId'),
-                username: localStorage.getItem('username')
+                id: sessionStorage.getItem('roomId'),
+                username: sessionStorage.getItem('username')
             };
             let startGameMsg = messageHandler.genMessage(typeMessage.START, user, 'START');
             startBtn.classList.remove('active');
@@ -199,32 +207,32 @@ messageHandler.joinLater = (msg) => {
 };
 
 
-let definitionRequest = async (word, data) => {
+let definitionRequest = async(word, data) => {
     const word_meaning = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en_US/${word}`, data);
     return word_meaning.json();
 };
 
 
-    let extract_meaning = (word, data) => {
+let extract_meaning = (word, data) => {
 
-        let choosen_word = document.getElementById('gameWord').innerText;
-        
-        let definition = definitionRequest(word, data)
+    let choosen_word = document.getElementById('gameWord').innerText;
+
+    let definition = definitionRequest(word, data)
         .then(data => {
-            
+
             document.getElementById('wordDefinition').innerText = `${data[0].meanings[0].definitions[0].definition}`;
 
             console.log(data[0].meanings[0].definitions[0].definition);
         });
-    };
-        
+};
+
 
 
 
 messageHandler.chooseWord = (list, callback) => {
     let user = {
-        id: localStorage.getItem('roomId'),
-        username: localStorage.getItem('username')
+        id: sessionStorage.getItem('roomId'),
+        username: sessionStorage.getItem('username')
     };
     let __CHOOSEN = false;
     let __WORD = list[Math.round(Math.random() * (list.length - 1))];
@@ -276,7 +284,7 @@ messageHandler.chooseWord = (list, callback) => {
             document.getElementById('wordDefinition').innerText = '';
         }, 15 * 1000);
     }, 10 * 1000);
-    
+
 };
 
 messageHandler.callGameOver = (list) => {
@@ -301,7 +309,7 @@ messageHandler.callGameOver = (list) => {
     }
 
     setTimeout(() => {
-        localStorage.clear();
+        sessionStorage.clear();
         overlay.classList.add('celebration');
     }, 1500);
 };
@@ -321,7 +329,7 @@ messageHandler.guessWord = (username, count) => {
         overlay.classList.remove('active');
     }
     startAudio.play();
-    if (localStorage.getItem('username') !== username) {
+    if (sessionStorage.getItem('username') !== username) {
         CANVAS_DATA.turn = false;
         let msgDiv = document.createElement('div');
         msgDiv.innerText = username + ' is drawing';

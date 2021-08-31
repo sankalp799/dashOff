@@ -16,9 +16,8 @@ if (window.location.pathname.indexOf('join') > -1) {
         app.client.request('POST', 'api/check', { username: app.config.username, id: roomId }, (s, p) => {
             console.log(s, p);
             if (s == 200) {
-
-                localStorage.setItem('username', app.config.username);
-                localStorage.setItem('roomId', roomId);
+                sessionStorage.setItem('username', app.config.username);
+                sessionStorage.setItem('roomId', roomId);
                 window.location.pathname = 'game';
             } else {
 
@@ -89,15 +88,16 @@ app.client.createRoomRequest = () => {
             let linkDiv = document.getElementById('roomLinkDiv');
             if (status == 200) {
                 if (username.length > 0) {
-                    localStorage.setItem('username', username);
+                    sessionStorage.setItem('username', username);
                 }
-                
-        
-                // localStorage.setItem('link', payload.link);
-                localStorage.setItem('link', payload.link.split('/')[1]);
+
+
+                // sessionStorage.setItem('link', payload.link);
+                sessionStorage.setItem('link', payload.link.split('/')[1]);
                 let pathName = payload.link.split('/')[1];
                 pathName = pathName.split('=')[1];
-                localStorage.setItem('roomId', pathName);
+
+                sessionStorage.setItem('roomId', pathName);
                 window.location.pathname = '/game';
                 /*
                         linkDiv.style.visibility = 'visible';
