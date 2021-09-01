@@ -3,11 +3,16 @@
         ROUND 1
     </div>
 
-    <div class="game-word" id="gameWord" align='center'>Honey</div>
+    <div class="game-word" id="gameWord" align='center'></div>
     <div class="timer" id="countDown" align='center'>00:00</div>
 </div>
 
-<div class="word-letters" id="wordDefinition"></div>
+<div class="help-box" id="helpBox">
+    <div id="wordDefinition"></div>
+    <div id="imageUrlRequestLink"><i class="fas fa-info-circle icon-static">
+        <span class="tooltip-text">HELP</span>
+    </i></div>
+</div>
 
 <div class="game-wrapper" id='gameWrapper'>
 
@@ -18,6 +23,8 @@
                 <h2 id='overlay-heading'></h2>
                 <div class="overlay-main-content">
                     <!--    <div class="overlayContentDiv"></div>   -->
+                    <!-- <img class="overlay-help-image-block">
+                    <img class="overlay-help-image-block"> -->
                 </div>
                 <button class="overlay-btn" id="startGameBtn">Start</button>
             </div>
@@ -49,6 +56,7 @@
         </div>
     </div>
 </div>
+
 
 <script src="https://kit.fontawesome.com/27878f914f.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="public/game.js"></script>

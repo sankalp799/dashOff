@@ -3,6 +3,11 @@ let chatBox = document.getElementById('chatBox');
 let messageText = document.getElementById('message-textbox');
 let sendMessageBtn = document.getElementById('sendMessageBtn');
 
+// HELP CONTAINER DOM
+let helpBox = document.getElementById('helpBox');
+let definitionBox = document.getElementById('wordDefinition');
+let imageRequestLink = document.getElementById('imageUrlRequestLink');
+
 //word div
 let wordDiv = document.getElementById('gameWord');
 
@@ -54,11 +59,51 @@ let typeMessage = {
     'ROUND_OVER': 17,
     'NEW_ROUND': 18,
     'WAIT_FOR_ENOUGH_PLAYERS': 19,
-    'IMAGE_URL':20
+    'IMAGE_URL': 20
 };
+
 
 // message handler
 messageHandler = {};
+
+
+messageHandler.I_H = (links) => {
+    if(links){
+        overlayContentBox.innerHTML = '';
+        if(!overlay.classList.contains('active')){
+            overlay.classList.add('active');
+        }
+        if(!overlayContentBox.classList.contains('help')){
+            overlayContentBox.classList.add('help');
+        }
+        overlayHeading.innerText = '5';
+        
+        for(let loop=0; loop<2; loop++){
+            let imgBlock = document.createElement('img');
+            imgBlock.src = '' + links[loop];
+            imgBlock.classList.add('overlay-help-image-block');
+
+            // embed image block to overlayMainContent
+            overlayContentBox.insertAdjacentElement('beforeend', imgBlock);
+        }
+        let intervalCounter = 5;
+        let help_interval = setInterval(() => {
+            intervalCounter -= 1;
+            overlayHeading.innerText = '' + intervalCounter;
+            if(intervalCounter <= 0){
+                overlayHeading.innerText = '';
+                overlayContentBox.innerHTML = '';
+                overlayContentBox.classList.remove('help');
+                overlay.classList.remove('active');
+                clearInterval(help_interval);
+                definitionBox.innerText = ''; 
+            }
+        }, 1000);
+        
+    }else{
+        // not links received by server-side    
+    }
+};
 
 messageHandler.newChat = (data) => {
     let chat = document.createElement('div');
@@ -89,6 +134,7 @@ messageHandler.newChat = (data) => {
 };
 
 messageHandler.setWordImages = (images) => {
+    // set data to tooltips
     console.log('IMAGE URLS: ', images);
 };
 
@@ -225,7 +271,7 @@ let extract_meaning = (word, data) => {
     let definition = definitionRequest(word, data)
         .then(data => {
 
-            document.getElementById('wordDefinition').innerText = `${data[0].meanings[0].definitions[0].definition}`;
+            definitionBox.innerText = `${data[0].meanings[0].definitions[0].definition}`;
 
             console.log(data[0].meanings[0].definitions[0].definition);
         });
@@ -275,6 +321,10 @@ messageHandler.chooseWord = (list, callback) => {
             returnMsg.message = evt.target.innerText;
             __WORD = evt.target.innerText;
             __CHOOSEN = true;
+            if(!helpBox.classList.contains('active')){
+                helpBox.classList.add('active');
+
+            }
             sub_send_word(returnMsg);
             extract_meaning(evt.target.innerText, {});
         });
@@ -286,7 +336,10 @@ messageHandler.chooseWord = (list, callback) => {
             extract_meaning(returnMsg.message, {});
         }
         setTimeout(() => {
-            document.getElementById('wordDefinition').innerText = '';
+            definitionBox.innerText = '';
+            if(helpBox.classList.contains('active')){
+                helpBox.classList.remove('active');
+            }
         }, 15 * 1000);
     }, 10 * 1000);
 
@@ -398,6 +451,7 @@ messageHandler.drawCoords = (data) => {
     CANVAS_DATA = data;
     CANVAS_DATA.turn = false;
     CANVAS_DATA.drawing = false;
+    console.log(data);
     drawStroke();
 }
 
@@ -432,3 +486,21 @@ messageHandler.processCanvasHistory = (coords_Array) => {
         });
     }
 };
+
+// gen request for images
+imageRequestLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    let t_m = messageHandler.genMessage(typeMessage.IMAGE_URL, {
+        id: sessionStorage.getItem('roomId'),
+        username: sessionStorage.getItem('username'),
+
+    }, null);
+
+    sendRawToServer(t_m);
+
+    setTimeout(() => {
+        if(helpBox.classList.contains('active')){
+            helpBox.classList.remove('active');
+        }
+    }, 500);
+});

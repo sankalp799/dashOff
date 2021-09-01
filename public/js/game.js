@@ -8,11 +8,14 @@ let USER = {
     username: username
 };
 
-// socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
-socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
+socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
+// socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
 
 let sendRawToServer = (msg) => {
     if (socket) {
+        if(msg.type == 20){
+            console.log('IMAGE_URL_REQUEST_SENT');
+        }
         msg = JSON.stringify(msg);
         socket.send(msg);
     }
@@ -20,11 +23,28 @@ let sendRawToServer = (msg) => {
 
 // play with socket
 if (socket !== null) {
-    console.log('connected');
     socket.onmessage = (evt) => {
         let parsedData = JSON.parse(evt.data);
+        
+        if(parsedData.type == typeMessage.CANVAS._DRAW){
+            messageHandler.drawCoords(parsedData.message);
+        }
+        if(parsedData.type == typeMessage.CANVAS._CLEAR){
+            messageHandler.clearCoords(parsedData.message);
+        }
+        
         if (sessionStorage.getItem('roomId') == parsedData.roomId) {
+            console.log('connected');
             switch (parsedData.type) {
+                case typeMessage.CANVAS._DRAW:
+                    messageHandler.drawCoords(parsedData.message);
+                    break;
+                case typeMessage.CANVAS._CLEAR:
+                    messageHandler.clearCoords(parsedData.message);
+                    break;
+                case typeMessage.CANVAS._ERASE:
+                    messageHandler.eraseCoords(parsedData.message);
+                    break;
                 case typeMessage.NEW_CONNECTION:
                     messageHandler.newChat(parsedData);
                     break;
@@ -63,8 +83,11 @@ if (socket !== null) {
                                 sendRawToServer(wordMsg);
                             });
                         } else {
+                            if(document.getElementById('helpBox').classList.contains('active')){ document.getElementById('helpBox').classList.remove('active'); }
+
                             messageHandler.waitForPlayerToChoose(parsedData.from);
                         }
+                        
                     })();
                     break;
                 case typeMessage.GAME_OVER:
@@ -79,15 +102,6 @@ if (socket !== null) {
                 case typeMessage.GAME_COUNT_DOWN:
                     messageHandler.displayCounter(parsedData.message);
                     break;
-                case typeMessage.CANVAS._DRAW:
-                    messageHandler.drawCoords(parsedData.message);
-                    break;
-                case typeMessage.CANVAS._CLEAR:
-                    messageHandler.clearCoords(parsedData.message);
-                    break;
-                case typeMessage.CANVAS._ERASE:
-                    messageHandler.eraseCoords(parsedData.message);
-                    break;
                 case typeMessage.NEW_ROUND:
                     messageHandler.newRound(parsedData.message);
                     break;
@@ -95,11 +109,13 @@ if (socket !== null) {
                     messageHandler.notEnoughPlayers(parsedData.message);
                     break;
                 case typeMessage.IMAGE_URL:
-                    messageHandler.setWordImages(parsedData.message);
+                    messageHandler.I_H(parsedData.message);
                     break;
             };
         }
     };
+}else{
+    window.location.pathname = '/';
 }
 
 

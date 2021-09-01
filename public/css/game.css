@@ -478,3 +478,99 @@ LINK-TEXT-COPY-STYLE
 .fa-clone:hover {
     color: rgb(160, 160, 160);
 }
+
+
+/***********
+GAME-FILE-HELP-SECTION-STYLE
+********/
+
+.help-box {
+    background-color: rgba(40, 40, 40, 0.5);
+    font-size: 90%;
+    position: relative;
+    display: none;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 8vh;
+    margin-bottom: 10px;
+}
+
+.help-box.active {
+    display: flex;
+}
+
+#wordDefinition {
+    position: relative;
+    width: 80%;
+}
+
+#imageUrlRequestLink {
+    position: relative;
+    width: 10%;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid white;
+}
+
+.icon-static {
+    cursor: pointer;
+    font-size: 210%;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.icon-static .tooltip-text {
+    visibility: hidden;
+    background-color: black;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #fff;
+    font-size: 17px;
+    width: 600%;
+    padding: 5px 0px;
+    text-align: center;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+}
+
+.icon-static .tooltip-text::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    margin-left: -20px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+.icon-static:hover .tooltip-text {
+    visibility: visible;
+}
+
+
+/************
+OVERLAY-HELP-STYLE
+**/
+
+.overlay-main-content.help {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    width: 100%;
+    justify-content: space-evenly;
+    height: fit-content;
+}
+
+.overlay-help-image-block {
+    position: relative;
+    width: 45%;
+    height: 400px;
+}

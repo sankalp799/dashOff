@@ -93,8 +93,9 @@ app.client.createRoomRequest = () => {
 
 
                 // sessionStorage.setItem('link', payload.link);
-                sessionStorage.setItem('link', payload.link.split('/')[1]);
-                let pathName = payload.link.split('/')[1];
+                //sessionStorage.setItem('link', payload.link.split('/')[1]);
+                let pathName = payload.link.split('/');
+                pathName = pathName[pathName.length - 1];
                 pathName = pathName.split('=')[1];
 
                 sessionStorage.setItem('roomId', pathName);
