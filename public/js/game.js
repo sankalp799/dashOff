@@ -8,12 +8,12 @@ let USER = {
     username: username
 };
 
-socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
-// socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
+// socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
+socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
 
 let sendRawToServer = (msg) => {
     if (socket) {
-        if(msg.type == 20){
+        if (msg.type == 20) {
             console.log('IMAGE_URL_REQUEST_SENT');
         }
         msg = JSON.stringify(msg);
@@ -25,14 +25,14 @@ let sendRawToServer = (msg) => {
 if (socket !== null) {
     socket.onmessage = (evt) => {
         let parsedData = JSON.parse(evt.data);
-        
-        if(parsedData.type == typeMessage.CANVAS._DRAW){
+
+        if (parsedData.type == typeMessage.CANVAS._DRAW) {
             messageHandler.drawCoords(parsedData.message);
         }
-        if(parsedData.type == typeMessage.CANVAS._CLEAR){
+        if (parsedData.type == typeMessage.CANVAS._CLEAR) {
             messageHandler.clearCoords(parsedData.message);
         }
-        
+
         if (sessionStorage.getItem('roomId') == parsedData.roomId) {
             console.log('connected');
             switch (parsedData.type) {
@@ -83,11 +83,11 @@ if (socket !== null) {
                                 sendRawToServer(wordMsg);
                             });
                         } else {
-                            if(document.getElementById('helpBox').classList.contains('active')){ document.getElementById('helpBox').classList.remove('active'); }
+                            if (document.getElementById('helpBox').classList.contains('active')) { document.getElementById('helpBox').classList.remove('active'); }
 
                             messageHandler.waitForPlayerToChoose(parsedData.from);
                         }
-                        
+
                     })();
                     break;
                 case typeMessage.GAME_OVER:
@@ -114,7 +114,7 @@ if (socket !== null) {
             };
         }
     };
-}else{
+} else {
     window.location.pathname = '/';
 }
 
