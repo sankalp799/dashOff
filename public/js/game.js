@@ -94,6 +94,9 @@ if (socket !== null) {
                 case typeMessage.WAIT_FOR_ENOUGH_PLAYERS:
                     messageHandler.notEnoughPlayers(parsedData.message);
                     break;
+                case typeMessage.IMAGE_URL:
+                    messageHandler.setWordImages(parsedData.message);
+                    break;
             };
         }
     };

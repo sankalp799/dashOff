@@ -53,7 +53,8 @@ let typeMessage = {
     'GUSSED': 16,
     'ROUND_OVER': 17,
     'NEW_ROUND': 18,
-    'WAIT_FOR_ENOUGH_PLAYERS': 19
+    'WAIT_FOR_ENOUGH_PLAYERS': 19,
+    'IMAGE_URL':20
 };
 
 // message handler
@@ -87,6 +88,10 @@ messageHandler.newChat = (data) => {
     chatBox.scrollTo = chatBox.scrollHeight;
 };
 
+messageHandler.setWordImages = (images) => {
+    console.log('IMAGE URLS: ', images);
+};
+
 messageHandler.notEnoughPlayers = (data) => {
     if (!overlay.classList.contains('active')) {
         overlay.classList.add('active');
@@ -118,10 +123,10 @@ messageHandler.newRound = (round) => {
 };
 
 messageHandler.showPlayerList = (data) => {
-    console.log('list_data_raw: ', data);
+    // console.log('list_data_raw: ', data);
     let list = typeof(data.message.list) !== 'undefined' && data.message.list instanceof Array ? data.message.list : false;
     let drawing_player_port = data.message.drawing_player_port !== null ? data.message.drawing_player_port : false;
-    console.log('list-->>> ', list, drawing_player_port);
+    // console.log('list-->>> ', list, drawing_player_port);
     if (list) {
         playersList.innerHTML = '';
 
@@ -181,7 +186,7 @@ messageHandler.showPlayerJoinedGame = (data, callback) => {
             }
         } catch {
             // CAUGHT EXCEPTION
-            console.log('You cant start match');
+            // console.log('You cant start match');
         }
         callback(false);
     }
