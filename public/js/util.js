@@ -62,13 +62,13 @@ let typeMessage = {
     'IMAGE_URL': 20
 };
 
-
 // message handler
-messageHandler = {};
+let messageHandler = {};
 
 
 messageHandler.I_H = (links) => {
     if(links){
+        let ImageLoadedCounter = 0;
         overlayContentBox.innerHTML = '';
         if(!overlay.classList.contains('active')){
             overlay.classList.add('active');
@@ -83,14 +83,28 @@ messageHandler.I_H = (links) => {
             imgBlock.src = '' + links[loop];
             imgBlock.classList.add('overlay-help-image-block');
 
+            // check if image is fully rendered or not
+            /*********
+            imgBlock.addEventListener('load', (e) => {
+                ImageLoadedCounter += 1;
+                console.log('image loaded');
+                console.log('image_display_count_down: ' + ImageLoadedCounter);
+            });
+            *******/
+
             // embed image block to overlayMainContent
             overlayContentBox.insertAdjacentElement('beforeend', imgBlock);
         }
+
         let intervalCounter = 5;
         let help_interval = setInterval(() => {
-            intervalCounter -= 1;
+            //if(ImageLoadedCounter >= 2){
+                intervalCounter -= 1;
+                console.log(intervalCounter);
+            //}
             overlayHeading.innerText = '' + intervalCounter;
             if(intervalCounter <= 0){
+                console.log('image_interval_cleared');
                 overlayHeading.innerText = '';
                 overlayContentBox.innerHTML = '';
                 overlayContentBox.classList.remove('help');

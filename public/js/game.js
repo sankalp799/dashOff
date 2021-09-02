@@ -1,3 +1,5 @@
+// import { typeMessage, messageHand } from './util';
+
 // connection object
 let socket = null;
 let roomId = sessionStorage.getItem('roomId');
@@ -8,8 +10,12 @@ let USER = {
     username: username
 };
 
-socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
-// socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
+if(window.location.hostname.indexOf('localhost') >= 0){
+    socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
+}else{
+    socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
+}
+
 
 let sendRawToServer = (msg) => {
     if (socket) {
