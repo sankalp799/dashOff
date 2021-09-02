@@ -8,6 +8,7 @@
     },
     "scripts": {
         "start": "node index",
+        "local":"node index DASH_OFF_ENV=staging",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Sankalp Prithyani",
