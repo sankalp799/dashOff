@@ -24,7 +24,7 @@ enviornment.production = {
     'NAME': 'Production Env',
     'PORT': process.env.PORT || 4000,
     'URL_SHORTENER': {
-        'API_KEY': process.env.API_KEY,
+        'API_KEY': process.env.URL_SHORTENER_API_KEY,
     },
     'UNSPLASH': {
         'CLIENT_ID':process.env.IMAGE_API_CLIENT_ID,
