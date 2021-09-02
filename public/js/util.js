@@ -90,18 +90,23 @@ messageHandler.I_H = (links) => {
                 console.log('image loaded');
                 console.log('image_display_count_down: ' + ImageLoadedCounter);
             });
-            *******/
+            ****/
+
+            imgBlock.onload = (e) => {
+                ImageLoadedCounter += 1;
+                overlayContentBox.insertAdjacentElement('beforeend', imgBlock);
+            };
 
             // embed image block to overlayMainContent
-            overlayContentBox.insertAdjacentElement('beforeend', imgBlock);
+            // overlayContentBox.insertAdjacentElement('beforeend', imgBlock);
         }
 
         let intervalCounter = 5;
         let help_interval = setInterval(() => {
-            //if(ImageLoadedCounter >= 2){
+            if(ImageLoadedCounter >= 2){
                 intervalCounter -= 1;
                 console.log(intervalCounter);
-            //}
+            }
             overlayHeading.innerText = '' + intervalCounter;
             if(intervalCounter <= 0){
                 console.log('image_interval_cleared');
