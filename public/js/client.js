@@ -22,6 +22,7 @@ if (window.location.pathname.indexOf('join') > -1) {
             } else {
 
                 let errorDiv = document.getElementById('joinErrorDiv');
+                errorDiv.style.color = 'red';
                 if (!errorDiv.classList.contains('active')) {
                     errorDiv.classList.add('active');
                 }
@@ -82,6 +83,8 @@ app.client.createRoomRequest = () => {
                 formPayload[formElements[i].name] = formElements[i].value;
             }
         }
+
+
 
         // make ajax request for creating room
         app.client.request(method, formPath, formPayload, (status, payload) => {

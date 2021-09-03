@@ -10,11 +10,12 @@ let USER = {
     username: username
 };
 
-if(window.location.hostname.indexOf('localhost') >= 0){
+if (window.location.hostname.indexOf('localhost') >= 0) {
     socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
-}else{
+} else {
     socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
 }
+console.log(socket);
 
 
 let sendRawToServer = (msg) => {
@@ -28,7 +29,7 @@ let sendRawToServer = (msg) => {
 };
 
 // play with socket
-if (socket !== null) {
+if (socket && username !== null) {
     socket.onmessage = (evt) => {
         let parsedData = JSON.parse(evt.data);
 
