@@ -1,65 +1,88 @@
-<div class="word-letters">
-    <div class="rounds-username" id="gameRoundDisplay" align='center'>
-        ROUND 1
-    </div>
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="game-word" id="gameWord" align='center'></div>
-    <div class="timer" id="countDown" align='center'>00:00</div>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="public/game.css">
+    <link rel="stylesheet" type="text/css" href="public/response.css">
+    <script defer type="text/javascript" src="public/bg.js"></script>
+    <title>DASH-OFF | GAME</title>
+</head>
 
-<div class="help-box" id="helpBox">
-    <div id="wordDefinition"></div>
-    <div id="imageUrlRequestLink"><i class="fas fa-info-circle icon-static">
+<body>
+    <canvas id="main-bg-canvas"></canvas>
+    <div class="main-html-wrapper">
+        <div class="wrapper">
+
+            <div class="word-letters">
+                <div class="rounds-username" id="gameRoundDisplay" align='center'>
+                    ROUND 1
+                </div>
+
+                <div class="game-word" id="gameWord" align='center'></div>
+                <div class="timer" id="countDown" align='center'>00:00</div>
+            </div>
+
+            <div class="help-box" id="helpBox">
+                <div id="wordDefinition"></div>
+                <div id="imageUrlRequestLink"><i class="fas fa-info-circle icon-static">
         <span class="tooltip-text">HELP</span>
     </i></div>
-</div>
+            </div>
 
-<div class="game-wrapper" id='gameWrapper'>
+            <div class="game-wrapper" id='gameWrapper'>
 
-    <div class='paint-wrapper'>
-        <!--    OVERLAY     -->
-        <div class="overlay" id='overlay'>
-            <div class="overlay-content-wrapper">
-                <h2 id='overlay-heading'></h2>
-                <div class="overlay-main-content">
-                    <!--    <div class="overlayContentDiv"></div>   -->
-                    <!-- <img class="overlay-help-image-block">
+                <div class='paint-wrapper'>
+                    <!--    OVERLAY     -->
+                    <div class="overlay" id='overlay'>
+                        <div class="overlay-content-wrapper">
+                            <h2 id='overlay-heading'></h2>
+                            <div class="overlay-main-content">
+                                <!--    <div class="overlayContentDiv"></div>   -->
+                                <!-- <img class="overlay-help-image-block">
                     <img class="overlay-help-image-block"> -->
+                            </div>
+                            <button class="overlay-btn" id="startGameBtn">Start</button>
+                        </div>
+                    </div>
+                    <!--    OVERLAY-END     -->
+                    <canvas class="dash-canvas" id='DashCanvas' width='600' height='600'></canvas>
+
+                    <div class='paint-tools-wrapper' id='paintToolBox'>
+                        <div>
+                            <input type="color" id="colorPicker" value="#ff44af" class="color-picker" />
+                        </div>
+                        <div>
+                            <input type="range" maxlength="30" minlength="5" value="8" id="lineWidthRange" class="strokeRange" />
+                        </div>
+                        <button class="pen" id="paintPen">pen</button>
+                        <button class="clear" id='clearCanvas'>clear</button>
+                        <button class="erase" id='eraser'>erase</button>
+                    </div>
                 </div>
-                <button class="overlay-btn" id="startGameBtn">Start</button>
-            </div>
-        </div>
-        <!--    OVERLAY-END     -->
-        <canvas class="dash-canvas" id='DashCanvas' width='600' height='600'></canvas>
 
-        <div class='paint-tools-wrapper' id='paintToolBox'>
-            <div>
-                <input type="color" id="colorPicker" value="#ff44af" class="color-picker" />
+                <div class="score-and-chat-wrapper">
+                    <div class="players" id="playersList"></div>
+                    <div class="chat-box">
+                        <div class='chat-wrapper' id='chatBox'></div>
+                        <div class="send-message-wrapper">
+                            <input type="text" name='message' id='message-textbox' class="textbox" />
+                            <button id='sendMessageBtn' class="messageSubmitBtn">Send</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <input type="range" maxlength="30" minlength="5" value="8" id="lineWidthRange" class="strokeRange" />
-            </div>
-            <button class="pen" id="paintPen">pen</button>
-            <button class="clear" id='clearCanvas'>clear</button>
-            <button class="erase" id='eraser'>erase</button>
-        </div>
-    </div>
 
-    <div class="score-and-chat-wrapper">
-        <div class="players" id="playersList"></div>
-        <div class="chat-box">
-            <div class='chat-wrapper' id='chatBox'></div>
-            <div class="send-message-wrapper">
-                <input type="text" name='message' id='message-textbox' class="textbox" />
-                <button id='sendMessageBtn' class="messageSubmitBtn">Send</button>
-            </div>
+
+            <script src="https://kit.fontawesome.com/27878f914f.js" crossorigin="anonymous"></script>
+            <script defer type="text/javascript" src="public/game.js"></script>
+            <script type="text/javascript" src="public/util.js"></script>
+            <script defer type="text/javascript" src="public/canvas.js"></script>
+            <script defer type="text/javascript" src="public/audio.js"></script>
         </div>
     </div>
-</div>
+</body>
 
-
-<script src="https://kit.fontawesome.com/27878f914f.js" crossorigin="anonymous"></script>
-<script defer type="text/javascript" src="public/game.js"></script>
-<script type="text/javascript" src="public/util.js"></script>
-<script defer type="text/javascript" src="public/canvas.js"></script>
-<script defer type="text/javascript" src="public/audio.js"></script>
+</html>
