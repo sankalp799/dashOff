@@ -105,7 +105,7 @@ class Particle {
 }
 
 
-for (let e = 0; e < 5300; e++) {
+for (let e = 0; e < 4800; e++) {
     particles.push(new Particle(bg.width, bg.height));
 }
 
