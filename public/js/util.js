@@ -151,12 +151,11 @@ messageHandler.newChat = (data) => {
     chatBox.insertAdjacentElement('beforeend', chat);
     chatBox.scrollTo = chatBox.scrollHeight;
 };
-/*
+
 messageHandler.setWordImages = (images) => {
     // set data to tooltips
     console.log('IMAGE URLS: ', images);
 };
-*/
 
 messageHandler.notEnoughPlayers = (data) => {
     if (!overlay.classList.contains('active')) {
@@ -389,7 +388,7 @@ messageHandler.callGameOver = (list) => {
     setTimeout(() => {
         sessionStorage.clear();
         overlay.classList.add('celebration');
-    }, 500);
+    }, 1500);
 };
 
 messageHandler.waitForPlayerToChoose = (username) => {
