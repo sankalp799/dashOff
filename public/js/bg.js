@@ -36,8 +36,8 @@ class Particle {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.baseX = this.x;
-        this.size = 1;
-        this.color = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.random < 0.6 ? 1 : 0.62})`;
+        this.size = 2;
+        this.color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
         this.baseY = this.y;
         this.speedX = Math.random() < 0.5 ? -0.6 : 0.6;
         this.speedY = Math.random() < 0.5 ? -0.6 : 0.6;
