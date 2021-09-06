@@ -7,6 +7,10 @@ let sendMessageBtn = document.getElementById('sendMessageBtn');
 let helpBox = document.getElementById('helpBox');
 let definitionBox = document.getElementById('wordDefinition');
 let imageRequestLink = document.getElementById('imageUrlRequestLink');
+let gameTimer = {
+    sec:undefined,
+    min:undefined,
+};
 
 //word div
 let wordDiv = document.getElementById('gameWord');
@@ -432,8 +436,9 @@ messageHandler.showGuessResult = (data) => {
     let sorted_data = data.sort((a, b) => {
         return b.current_score - a.current_score;
     });
-
-    overlayHeading.innerText = 'Time Out';
+    overlayHeading.innerHTML = '<h3>GUESS RESULTS</h3>';
+    if(gameTimer.sec <= 1 && gameTimer.min <= 0)
+        overlayHeading.innerHTML = '<h3>Time Out</h3>';
     overlayContentBox.innerHTML = '';
 
     sorted_data.forEach((player) => {
@@ -444,6 +449,7 @@ messageHandler.showGuessResult = (data) => {
 };
 
 messageHandler.displayCounter = (data) => {
+    gameTimer = data;
     if (data.min < 1 && data.sec == 11 && timerAudio !== null) {
         timerAudio.play();
         countDown.style.animationName = 'hurryUp';

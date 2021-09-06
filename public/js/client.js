@@ -3,21 +3,23 @@ let app = {};
 app.client = {};
 
 app.config = {};
-app.config.username = '';
 
 
 if (window.location.pathname.indexOf('join') > -1) {
     console.log('join');
     let joinBtn = document.getElementById('joinGameWithUsername');
     joinBtn.addEventListener('click', () => {
-        app.config.username = document.getElementById('getUsername').value;
+        app.config['username'] = document.getElementById('getUsername').value;
+        app.config.username = app.config.username.replaceAll(' ', '_');
         let roomId = window.location.href;
         roomId = roomId.split('=')[1];
+        app.config['roomId'] = roomId;
         app.client.request('POST', 'api/check', { username: app.config.username, id: roomId }, (s, p) => {
             console.log(s, p);
             if (s == 200) {
                 sessionStorage.setItem('username', app.config.username);
                 sessionStorage.setItem('roomId', roomId);
+                
                 window.location.pathname = 'game';
             } else {
 
