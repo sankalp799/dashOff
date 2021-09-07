@@ -32,7 +32,6 @@ let sendRawToServer = (msg) => {
 if (socket && username !== null) {
     socket.onmessage = (evt) => {
         let parsedData = JSON.parse(evt.data);
-
         if (parsedData.type == typeMessage.CANVAS._DRAW) {
             messageHandler.drawCoords(parsedData.message);
         }
@@ -72,7 +71,9 @@ if (socket && username !== null) {
                     break;
                 case typeMessage.WAIT:
                     messageHandler.showPlayerJoinedGame(parsedData.message, (start) => {
+                        console.log(parsedData.message);
                         if (start) {
+
                             sendRawToServer(start);
                         }
                     });

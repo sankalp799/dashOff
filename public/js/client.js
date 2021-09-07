@@ -10,7 +10,7 @@ if (window.location.pathname.indexOf('join') > -1) {
     let joinBtn = document.getElementById('joinGameWithUsername');
     joinBtn.addEventListener('click', () => {
         app.config['username'] = document.getElementById('getUsername').value;
-        app.config.username = app.config.username.replaceAll(' ', '_');
+        app.config.username = app.config.username.replace(' ', '_')
         let roomId = window.location.href;
         roomId = roomId.split('=')[1];
         app.config['roomId'] = roomId;
@@ -19,7 +19,7 @@ if (window.location.pathname.indexOf('join') > -1) {
             if (s == 200) {
                 sessionStorage.setItem('username', app.config.username);
                 sessionStorage.setItem('roomId', roomId);
-                
+
                 window.location.pathname = 'game';
             } else {
 
@@ -80,9 +80,11 @@ app.client.createRoomRequest = () => {
         for (let i = 0; i < formElements.length; i++) {
             if (formElements[i].type !== 'submit') {
                 if (formElements[i].name == 'username') {
-                    username = formElements[i].value;
+                    username = formElements[i].value.toString().length > 0 ? formElements[i].value.toString().replaceAll(' ', '_') : null;
+                    formPayload[formElements[i].name] = username;
+                } else {
+                    formPayload[formElements[i].name] = formElements[i].value;
                 }
-                formPayload[formElements[i].name] = formElements[i].value;
             }
         }
 
@@ -95,8 +97,7 @@ app.client.createRoomRequest = () => {
                 if (username.length > 0) {
                     sessionStorage.setItem('username', username);
                 }
-
-
+                sessionStorage.setItem('link', payload.link);
                 // sessionStorage.setItem('link', payload.link);
                 //sessionStorage.setItem('link', payload.link.split('/')[1]);
                 let pathName = payload.link.split('/');
