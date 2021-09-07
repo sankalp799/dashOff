@@ -3,12 +3,12 @@ const bgctx = bg.getContext('2d');
 let html_dom = document.querySelector('html');
 let particles = [];
 
-bg.width = html_dom.offsetWidth;
-bg.height = html_dom.offsetHeight;
+bg.width = window.innerWidth;
+bg.height = window.innerHeight;
 
 window.addEventListener('resize', (e) => {
-    bg.width = html_dom.offsetWidth;
-    bg.height = html_dom.offsetHeight;
+    bg.width = window.innerWidth;
+    bg.height = window.innerHeight;
 });
 /*********
 bgctx.fillStyle = 'white';
@@ -22,14 +22,20 @@ console.log(textPos.data);
 let mousePos = {
     x: null,
     y: null,
-    r: 50,
+    r: 150,
     d: 100,
 };
 
 window.addEventListener('mousemove', (e) => {
     mousePos.x = e.x;
     mousePos.y = e.y;
+    // bgctx.translate(e.x, e.y);
 });
+
+window.addEventListener('scroll', (e) => {
+    console.log('scrolling...');
+})
+
 
 class Particle {
     constructor(width, height) {
@@ -39,8 +45,8 @@ class Particle {
         this.size = 2;
         this.color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
         this.baseY = this.y;
-        this.speedX = Math.random() < 0.5 ? -0.6 : 0.6;
-        this.speedY = Math.random() < 0.5 ? -0.6 : 0.6;
+        this.speedX = Math.random() < 0.5 ? -0.1 : 0.1;
+        this.speedY = Math.random() < 0.5 ? -0.1 : 0.1;
         this.density = Math.random() * 50;
         this.DisX = false;
         this.DisY = false;
@@ -49,7 +55,9 @@ class Particle {
     draw(context) {
         context.fillStyle = this.color;
         context.beginPath();
+        // context.save();
         context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        // context.restore();
         context.closePath();
         context.fill();
     }
@@ -81,9 +89,9 @@ class Particle {
         let F = (maxDis - dis) / maxDis;
         let DirX = F * Fx * this.density;
         let DirY = F * Fy * this.density;
-        if (dis < 150) {
-            this.x -= DirX;
-            this.y -= DirY;
+        if (dis < 100) {
+            this.x -= DirX * 1.5;
+            this.y -= DirY * 1.5;
             this.DisX = true;
             this.DisY = true;
         } else {
@@ -100,6 +108,7 @@ class Particle {
             } else {
                 this.DisY = false;
             }
+
         }
     }
 }
