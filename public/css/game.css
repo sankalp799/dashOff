@@ -49,11 +49,35 @@ body {
 }
 
 .main-bg-canvas {
-    background: transparent;
+    background-color: rgb(93, 155, 196);
     position: absolute;
     left: 0%;
     top: 0%;
+    height: 100%;
+    width: 100%;
     z-index: -1;
+}
+
+#bg-canvas {
+    background: transparent;
+}
+
+@keyframes bgCanvasColorChange {
+    0% {
+        background-color: #c574ebe7;
+    }
+    25% {
+        background-color: #e27676f3;
+    }
+    50% {
+        background-color: #c9f187f3;
+    }
+    75% {
+        background-color: #666;
+    }
+    100% {
+        background-color: rgb(93, 155, 196);
+    }
 }
 
 .main-game-wrapper {
@@ -62,7 +86,8 @@ body {
     transform: translateX(-50%);
     width: 100%;
     height: fit-content;
-    margin-bottom: 2%;
+    margin-top: 1%;
+    margin-bottom: 4%;
 }
 
 .header,

@@ -1,15 +1,24 @@
-const bg = document.getElementById('bg-wrapper');
+const bg = document.getElementById('bg-canvas');
+const bgWrapper = document.getElementById('bg-wrapper');
 const bgctx = bg.getContext('2d');
 let html_dom = document.querySelector('html');
 let particles = [];
+let bg_color_arr = ['#c574ebe7', '#e27676f3', '#c9f187f3', '#666666', 'rgb(93, 155, 196)'];
 
-bg.width = window.innerWidth;
-bg.height = window.innerHeight;
+if (sessionStorage.getItem('bgColor') === null)
+    sessionStorage.setItem('bgColor', bg_color_arr[Math.floor(Math.random() * bg_color_arr.length)]);
+
+
+bgWrapper.style.backgroundColor = sessionStorage.getItem('bgColor');
+
+bg.width = bgWrapper.offsetWidth;
+bg.height = bgWrapper.offsetHeight;
 
 window.addEventListener('resize', (e) => {
-    bg.width = window.innerWidth;
-    bg.height = window.innerHeight;
+    bg.width = bgWrapper.offsetWidth;
+    bg.height = bgWrapper.offsetHeight;
 });
+
 /*********
 bgctx.fillStyle = 'white';
 bgctx.font = '30px arial';
@@ -114,7 +123,7 @@ class Particle {
 }
 
 
-for (let e = 0; e < 4800; e++) {
+for (let e = 0; e < 5000; e++) {
     particles.push(new Particle(bg.width, bg.height));
 }
 
