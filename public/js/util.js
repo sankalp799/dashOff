@@ -8,8 +8,8 @@ let helpBox = document.getElementById('helpBox');
 let definitionBox = document.getElementById('wordDefinition');
 let imageRequestLink = document.getElementById('imageUrlRequestLink');
 let gameTimer = {
-    sec:undefined,
-    min:undefined,
+    sec: undefined,
+    min: undefined,
 };
 
 //word div
@@ -71,18 +71,18 @@ let messageHandler = {};
 
 
 messageHandler.I_H = (links) => {
-    if(links){
+    if (links) {
         let ImageLoadedCounter = 0;
         overlayContentBox.innerHTML = '';
-        if(!overlay.classList.contains('active')){
+        if (!overlay.classList.contains('active')) {
             overlay.classList.add('active');
         }
-        if(!overlayContentBox.classList.contains('help')){
+        if (!overlayContentBox.classList.contains('help')) {
             overlayContentBox.classList.add('help');
         }
         overlayHeading.innerText = '5';
-        
-        for(let loop=0; loop<2; loop++){
+
+        for (let loop = 0; loop < 2; loop++) {
             let imgBlock = document.createElement('img');
             imgBlock.src = '' + links[loop];
             imgBlock.classList.add('overlay-help-image-block');
@@ -107,23 +107,23 @@ messageHandler.I_H = (links) => {
 
         let intervalCounter = 5;
         let help_interval = setInterval(() => {
-            if(ImageLoadedCounter >= 2){
+            if (ImageLoadedCounter >= 2) {
                 intervalCounter -= 1;
                 console.log(intervalCounter);
             }
             overlayHeading.innerText = '' + intervalCounter;
-            if(intervalCounter <= 0){
+            if (intervalCounter <= 0) {
                 console.log('image_interval_cleared');
                 overlayHeading.innerText = '';
                 overlayContentBox.innerHTML = '';
                 overlayContentBox.classList.remove('help');
                 overlay.classList.remove('active');
                 clearInterval(help_interval);
-                definitionBox.innerText = ''; 
+                definitionBox.innerText = '';
             }
         }, 1000);
-        
-    }else{
+
+    } else {
         // not links received by server-side    
     }
 };
@@ -344,7 +344,7 @@ messageHandler.chooseWord = (list, callback) => {
             returnMsg.message = evt.target.innerText;
             __WORD = evt.target.innerText;
             __CHOOSEN = true;
-            if(!helpBox.classList.contains('active')){
+            if (!helpBox.classList.contains('active')) {
                 helpBox.classList.add('active');
 
             }
@@ -357,10 +357,13 @@ messageHandler.chooseWord = (list, callback) => {
         if (!__CHOOSEN) {
             sub_send_word(returnMsg);
             extract_meaning(returnMsg.message, {});
+            if (!helpBox.classList.contains('active')) {
+                helpBox.classList.add('active');
+            }
         }
         setTimeout(() => {
             definitionBox.innerText = '';
-            if(helpBox.classList.contains('active')){
+            if (helpBox.classList.contains('active')) {
                 helpBox.classList.remove('active');
             }
         }, 15 * 1000);
@@ -437,7 +440,7 @@ messageHandler.showGuessResult = (data) => {
         return b.current_score - a.current_score;
     });
     overlayHeading.innerHTML = '<h3>GUESS RESULTS</h3>';
-    if(gameTimer.sec <= 1 && gameTimer.min <= 0)
+    if (gameTimer.sec <= 1 && gameTimer.min <= 0)
         overlayHeading.innerHTML = '<h3>Time Out</h3>';
     overlayContentBox.innerHTML = '';
 
@@ -524,7 +527,7 @@ imageRequestLink.addEventListener('click', (e) => {
     sendRawToServer(t_m);
 
     setTimeout(() => {
-        if(helpBox.classList.contains('active')){
+        if (helpBox.classList.contains('active')) {
             helpBox.classList.remove('active');
         }
     }, 500);
