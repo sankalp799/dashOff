@@ -3,7 +3,16 @@ const bgWrapper = document.getElementById('bg-wrapper');
 const bgctx = bg.getContext('2d');
 let html_dom = document.querySelector('html');
 let particles = [];
-let bg_color_arr = ['#c574ebe7', '#e27676f3', '#c9f187f3', '#666666', 'rgb(93, 155, 196)'];
+let bg_color_arr = ['#556270',
+    '#2d3436',
+    '#56a292',
+    '#ffa801',
+    '#27ae60',
+    '#e4844a',
+    '#d35400',
+    '#82589F',
+    '#182C61'
+];
 
 if (sessionStorage.getItem('bgColor') === null)
     sessionStorage.setItem('bgColor', bg_color_arr[Math.floor(Math.random() * bg_color_arr.length)]);
