@@ -1,3 +1,8 @@
+<div class="bot">
+    <img src='https://avatars.dicebear.com/api/bottts/freddy.svg' />
+    <span>Freddy</span>
+</div>
+
 <div class="word-letters">
     <div class="rounds-username" id="gameRoundDisplay" align='center'>
         ROUND 1
@@ -46,7 +51,15 @@
     </div>
 
     <div class="score-and-chat-wrapper">
-        <div class="players" id="playersList"></div>
+        <div class="players" id="playersList">
+            <!--
+                                <div><img src='https://avatars.dicebear.com/api/micah/sankalp.svg' />
+                Sankalp: 911</div>
+            <div><img src='https://avatars.dicebear.com/api/micah/piyush.svg'/>
+                Piyush: 459</div>
+                            -->
+            
+        </div>
         <div class="chat-box">
             <div class='chat-wrapper' id='chatBox'></div>
             <div class="send-message-wrapper">
@@ -59,7 +72,9 @@
 
 
 <script src="https://kit.fontawesome.com/27878f914f.js" crossorigin="anonymous"></script>
+<script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
 <script defer type="text/javascript" src="public/game.js"></script>
 <script type="text/javascript" src="public/util.js"></script>
 <script defer type="text/javascript" src="public/canvas.js"></script>
 <script defer type="text/javascript" src="public/audio.js"></script>
+<script defer type="text/javascript" src="public/app.js"></script>

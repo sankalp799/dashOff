@@ -162,6 +162,19 @@ audio {
     background-color: rgba(40, 40, 40, 0.5);
 }
 
+.players > div img {
+    position: relative;
+    width: 15%;
+    border: 2px solid rgba(40, 40, 40, 0.5);
+    border-radius:100%;
+    padding: 2px;
+}
+
+.players > div.active img{
+    border-color: green;
+}
+
+
 .players div,
 .chat-wrapper div,
 .overlay-main-content div {
@@ -269,6 +282,16 @@ canvas {
     overflow-y: scroll;
     width: 100%;
     height: 90%;
+}
+
+.chat-wrapper > div img{
+    position: relative;
+    width: 10%;
+}
+
+.user-avatar{
+    position: relative;
+    width: 10%;
 }
 
 .chat-box,
@@ -573,4 +596,43 @@ OVERLAY-HELP-STYLE
     position: relative;
     width: 45%;
     height: 400px;
+}
+
+
+/*************
+bot - styles
+*/
+.bot{
+    display: inline-block;
+    position: relative;
+    background-color: rgba(40, 40, 40, 0.5);
+    width: 20%;
+    height: 3vh;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.bot img{
+    width: 10%;
+    height: 90%;
+    padding: 6px;
+    position: relative;
+    top: 50%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
+    border: 2px solid #ffffffbb;
+}
+
+.bot.active img{
+    border-color: green;
+}
+
+.bot span {
+    position: relative;
+    top: -50%;
+    transform: translate(-50%, -50%);
+    font-family: system-ui;
+
 }

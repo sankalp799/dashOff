@@ -200,7 +200,8 @@ messageHandler.showPlayerList = (data) => {
             return b.score - a.score;
         });
         sortedList.forEach(player => {
-            let playerDiv = `<div>${player.username}: ${player.score}</div>`;
+            let avatarUrl = `https://avatars.dicebear.com/api/micah/${player.username}.svg`;
+            let playerDiv = `<div><img src='${avatarUrl}' />${player.username}: ${player.score}</div>`;
             playersList.insertAdjacentHTML('beforeend', playerDiv);
         });
     }
@@ -219,7 +220,7 @@ messageHandler.showPlayerJoinedGame = (data, callback) => {
     overlayHeading.innerHTML = `<div id='game-link'>${data.link}</div><div class='copy-link-btn-container'><i class="far fa-clone" id="copyLinkBtn"></i></div>`;
     overlayContentBox.innerHTML = '';
     data.players.forEach((player, index) => {
-        let Div = `<div class="overlayContentDiv">${index+1}. ${player.username}</div>`;
+        let Div = `<div class="overlayContentDiv"><img class='user-avatar' src='https://avatars.dicebear.com/api/micah/${player.username}.svg' /> ${player.username}</div>`;
         overlayContentBox.insertAdjacentHTML('beforeend', Div);
     });
 
@@ -284,7 +285,6 @@ let definitionRequest = async(word, data) => {
 
 
 let extract_meaning = (word, data) => {
-
     let choosen_word = document.getElementById('gameWord').innerText;
 
     let definition = definitionRequest(word, data)
@@ -381,7 +381,8 @@ messageHandler.callGameOver = (list) => {
         let player = document.createElement('div');
         player.classList.add('overlayContentDiv');
         player.style.fontSize = (140 - (index * 20)) + '%';
-        player.innerText = (index + 1) + '. ' + list[index].username + ': ' + list[index].score;
+        player.innerText = list[index].username + ': ' + list[index].score;
+        player.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/micah/${list[index].username}.svg' />` + player.innerHTML;
         overlayContentBox.insertAdjacentElement('beforeend', player);
     }
 
@@ -398,6 +399,7 @@ messageHandler.waitForPlayerToChoose = (username) => {
         overlay.classList.add('active');
     }
     overlayHeading.innerText = username + ' is choosing word';
+    overlayHeading.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/micah/${username}.svg' />` + overlayHeading.innerHTML;
     overlayContentBox.innerHTML = '';
 };
 
@@ -438,8 +440,9 @@ messageHandler.showGuessResult = (data) => {
 
     sorted_data.forEach((player) => {
         let playerDiv = document.createElement('div');
-        playerDiv.innerText = (sorted_data.indexOf(player) + 1) + '. ' + player.username + ':  +' + player.current_score;
-        overlayContentBox.insertAdjacentElement('beforeend', playerDiv);
+        playerDiv.innerText = player.username + ':  +' + player.current_score;
+        playerDiv.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/micah/${player.username}.svg' />` + playerDiv.innerHTML;
+        overlayContentBox.insertAdjacsssssssentElement('beforeend', playerDiv);
     });
 };
 
