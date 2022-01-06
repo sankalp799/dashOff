@@ -67,18 +67,18 @@ let messageHandler = {};
 
 
 messageHandler.I_H = (links) => {
-    if(links){
+    if (links) {
         let ImageLoadedCounter = 0;
         overlayContentBox.innerHTML = '';
-        if(!overlay.classList.contains('active')){
+        if (!overlay.classList.contains('active')) {
             overlay.classList.add('active');
         }
-        if(!overlayContentBox.classList.contains('help')){
+        if (!overlayContentBox.classList.contains('help')) {
             overlayContentBox.classList.add('help');
         }
         overlayHeading.innerText = '5';
-        
-        for(let loop=0; loop<2; loop++){
+
+        for (let loop = 0; loop < 2; loop++) {
             let imgBlock = document.createElement('img');
             imgBlock.src = '' + links[loop];
             imgBlock.classList.add('overlay-help-image-block');
@@ -103,48 +103,48 @@ messageHandler.I_H = (links) => {
 
         let intervalCounter = 5;
         let help_interval = setInterval(() => {
-            if(ImageLoadedCounter >= 2){
+            if (ImageLoadedCounter >= 2) {
                 intervalCounter -= 1;
                 console.log(intervalCounter);
             }
             overlayHeading.innerText = '' + intervalCounter;
-            if(intervalCounter <= 0){
+            if (intervalCounter <= 0) {
                 console.log('image_interval_cleared');
                 overlayHeading.innerText = '';
                 overlayContentBox.innerHTML = '';
                 overlayContentBox.classList.remove('help');
                 overlay.classList.remove('active');
                 clearInterval(help_interval);
-                definitionBox.innerText = ''; 
+                definitionBox.innerText = '';
             }
         }, 1000);
-        
-    }else{
+
+    } else {
         // not links received by server-side    
     }
 };
 
+/********************
+ * <div><img src='https://avatars.dicebear.com/api/identicon/sankalp.svg' /> :- number plz</div>
+    <div><img src='https://avatars.dicebear.com/api/identicon/piyush.svg' /> :- get lost</div>
+ */
+
 messageHandler.newChat = (data) => {
     let chat = document.createElement('div');
-    chat.innerText = '' + data.message;
-
-    // style
-    chat.style.fontSize = '90%';
-    chat.style.paddingBottom = '2px';
-    chat.style.paddingTop = '3px';
 
     // user chat type 
     if (data.type == typeMessage.CHAT) {
-        let Chat_Msg = data.username + ': ' + chat.innerText;
+        console.log(data);
         chat.style.color = 'white';
-        chat.innerText = Chat_Msg;
+        chat.innerHTML = `<img src='https://avatars.dicebear.com/api/identicon/${data.username}.svg' /> :- ${data.message} `;
     }
 
     // system chat type
     if (data.type == typeMessage.GUSSED) {
         guessAudio.play();
+        chat.innerHTML = `<img src='https://avatars.dicebear.com/api/bottts/freddy.svg' /> :- ${data.message}`;
         chat.innerText = data.message;
-        chat.style.color = 'lightgreen';
+        chat.style.color = 'yellow';
     }
 
     // embed html element
@@ -188,10 +188,10 @@ messageHandler.newRound = (round) => {
 };
 
 messageHandler.showPlayerList = (data) => {
-    // console.log('list_data_raw: ', data);
     let list = typeof(data.message.list) !== 'undefined' && data.message.list instanceof Array ? data.message.list : false;
     let drawing_player_port = data.message.drawing_player_port !== null ? data.message.drawing_player_port : false;
-    // console.log('list-->>> ', list, drawing_player_port);
+
+
     if (list) {
         playersList.innerHTML = '';
 
@@ -200,8 +200,8 @@ messageHandler.showPlayerList = (data) => {
             return b.score - a.score;
         });
         sortedList.forEach(player => {
-            let avatarUrl = `https://avatars.dicebear.com/api/micah/${player.username}.svg`;
-            let playerDiv = `<div><img src='${avatarUrl}' />${player.username}: ${player.score}</div>`;
+            let avatarUrl = `https://avatars.dicebear.com/api/identicon/${player.username}.svg`;
+            let playerDiv = `<div><img src='${avatarUrl}' />  ${player.username}: ${player.score}</div>`;
             playersList.insertAdjacentHTML('beforeend', playerDiv);
         });
     }
@@ -220,7 +220,7 @@ messageHandler.showPlayerJoinedGame = (data, callback) => {
     overlayHeading.innerHTML = `<div id='game-link'>${data.link}</div><div class='copy-link-btn-container'><i class="far fa-clone" id="copyLinkBtn"></i></div>`;
     overlayContentBox.innerHTML = '';
     data.players.forEach((player, index) => {
-        let Div = `<div class="overlayContentDiv"><img class='user-avatar' src='https://avatars.dicebear.com/api/micah/${player.username}.svg' /> ${player.username}</div>`;
+        let Div = `<div class="overlayContentDiv"><img class='user-avatar' src='https://avatars.dicebear.com/api/identicon/${player.username}.svg' /> ${player.username}</div>`;
         overlayContentBox.insertAdjacentHTML('beforeend', Div);
     });
 
@@ -229,7 +229,6 @@ messageHandler.showPlayerJoinedGame = (data, callback) => {
             console.log('copied');
         });
     });
-
     if (sessionStorage.getItem('username') == data.host && data.players.length > 1) {
         let startBtn = document.getElementById('startGameBtn');
         if (!startBtn.classList.contains('active')) {
@@ -340,7 +339,7 @@ messageHandler.chooseWord = (list, callback) => {
             returnMsg.message = evt.target.innerText;
             __WORD = evt.target.innerText;
             __CHOOSEN = true;
-            if(!helpBox.classList.contains('active')){
+            if (!helpBox.classList.contains('active')) {
                 helpBox.classList.add('active');
 
             }
@@ -356,7 +355,7 @@ messageHandler.chooseWord = (list, callback) => {
         }
         setTimeout(() => {
             definitionBox.innerText = '';
-            if(helpBox.classList.contains('active')){
+            if (helpBox.classList.contains('active')) {
                 helpBox.classList.remove('active');
             }
         }, 15 * 1000);
@@ -382,7 +381,7 @@ messageHandler.callGameOver = (list) => {
         player.classList.add('overlayContentDiv');
         player.style.fontSize = (140 - (index * 20)) + '%';
         player.innerText = list[index].username + ': ' + list[index].score;
-        player.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/micah/${list[index].username}.svg' />` + player.innerHTML;
+        player.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/identicon/${list[index].username}.svg' />` + player.innerHTML;
         overlayContentBox.insertAdjacentElement('beforeend', player);
     }
 
@@ -399,7 +398,7 @@ messageHandler.waitForPlayerToChoose = (username) => {
         overlay.classList.add('active');
     }
     overlayHeading.innerText = username + ' is choosing word';
-    overlayHeading.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/micah/${username}.svg' />` + overlayHeading.innerHTML;
+    overlayHeading.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/identicon/${username}.svg' />` + overlayHeading.innerHTML;
     overlayContentBox.innerHTML = '';
 };
 
@@ -441,7 +440,7 @@ messageHandler.showGuessResult = (data) => {
     sorted_data.forEach((player) => {
         let playerDiv = document.createElement('div');
         playerDiv.innerText = player.username + ':  +' + player.current_score;
-        playerDiv.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/micah/${player.username}.svg' />` + playerDiv.innerHTML;
+        playerDiv.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/identicon/${player.username}.svg' />` + playerDiv.innerHTML;
         overlayContentBox.insertAdjacsssssssentElement('beforeend', playerDiv);
     });
 };
@@ -521,7 +520,7 @@ imageRequestLink.addEventListener('click', (e) => {
     sendRawToServer(t_m);
 
     setTimeout(() => {
-        if(helpBox.classList.contains('active')){
+        if (helpBox.classList.contains('active')) {
             helpBox.classList.remove('active');
         }
     }, 500);

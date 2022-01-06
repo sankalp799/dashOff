@@ -1,5 +1,12 @@
 :root {
     --blue: rgba(255, 255, 255, 0.27);
+    --background: #0A0B0C;
+    --block-background: #ffffff3a;
+    --border: transparent;
+    --media-background: #7c7c7c69;
+    --midia-orange: #c45e29c2;
+    --media-green: #407855b8;
+    --media-blue: #0078d47d;
 }
 
 * {
@@ -12,11 +19,15 @@ html {
     padding: 0;
     margin: 0;
     font-size: 18px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: system-ui, Arial, sans-serif;
     background-image: radial-gradient(#00000049, transparent), url(./doodle1.jpg);
     background-position: center;
     background-size: cover;
+    /*
     animation: animatedBackground 18s linear infinite alternate;
+    
+    background-color: var(--background);
+    */
 }
 
 @keyframes animatedBackground {
@@ -47,9 +58,12 @@ body {
 .header,
 .wrapper,
 .footer {
+    /*
     background: radial-gradient(#00000046, #00000034);
+    */
+    background-color: var(--block-background);
     position: relative;
-    width: 50%;
+    width: 60%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -58,15 +72,30 @@ body {
     padding: 40px;
 }
 
+.main-game-container {
+    height: 75vh;
+    padding: 15px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--border);
+}
+
 .header {
     margin-top: 2.5rem;
+    height: 10%;
     font-size: 300%;
-    border-bottom: 10px solid #fff;
+    border-bottom: 10px solid var(--border);
 }
 
 .wrapper {
-    padding-top: 100px;
-    padding-bottom: 100px;
+    border: 1px solid var(--border);
+}
+
+.wrapper.active {
+    border-radius: 10px;
+    width: 70%;
 }
 
 
@@ -148,6 +177,8 @@ audio {
 
 .paint-tools-wrapper {
     width: 30%;
+    display: relative;
+    transform: translateY(-50%);
 }
 
 .paint-wrapper {
@@ -159,35 +190,51 @@ audio {
 .word-letters,
 .players,
 .paint-tools-wrapper {
-    background-color: rgba(40, 40, 40, 0.5);
+    border: 1px solid white;
 }
 
-.players > div img {
+.players>div img,
+.chat-wrapper>div img {
     position: relative;
     width: 15%;
-    border: 2px solid rgba(40, 40, 40, 0.5);
-    border-radius:100%;
-    padding: 2px;
+    height: 90%;
+    margin-right: 1px;
 }
 
-.players > div.active img{
-    border-color: green;
+.players>div {
+    width: 100%;
 }
 
+.chat-wrapper>div:nth-child(odd),
+.players>div:nth-child(odd),
+.overlay-main-content>div:nth-child(odd) {
+    background-color: var(--media-background);
+}
 
 .players div,
 .chat-wrapper div,
 .overlay-main-content div {
-    padding-top: 7px;
-    padding-bottom: 7px;
-    margin-bottom: 2px;
-    background-color: var(--blue);
+    height: 12%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1px;
+    font-size: 85%;
+}
+
+.chat-wrapper>div {
+    padding: 0px 5px;
+    height: 8%;
+    margin: 0;
+    padding: 0;
+    padding-left: 2px;
 }
 
 .game-wrapper {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    position: relative;
+    height: 87%;
     justify-content: space-between;
 }
 
@@ -199,6 +246,7 @@ audio {
 
 .score-and-chat-wrapper {
     width: 25%;
+    height: 100%;
 }
 
 canvas {
@@ -206,17 +254,36 @@ canvas {
 }
 
 .paint-tools-wrapper {
-    height: 10vh;
+    height: 7%;
+    display: flex;
     width: 100%;
+    align-items: center;
+}
+
+.paint-tools-wrapper button {
+    position: relative;
+    display: block;
+    height: 80%;
+    padding: 0px 10px;
+    outline: none;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.paint-tools-wrapper>div {
+    margin-left: 10px;
+    border-radius: 5px;
 }
 
 .word-letters {
-    font-size: 85%;
+    font-size: 70%;
     position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 5vh;
+    height: 5%;
     margin-bottom: 10px;
 }
 
@@ -242,10 +309,10 @@ canvas {
 
 @keyframes hurryUp {
     0% {
-        border-color: #fff;
+        border-color: var(--border);
     }
     49% {
-        border-color: #fff;
+        border-color: var(--border);
     }
     60% {
         border-color: transparent;
@@ -254,7 +321,7 @@ canvas {
         border-color: transparent;
     }
     100% {
-        border-color: #fff;
+        border-color: var(--border);
     }
 }
 
@@ -268,35 +335,34 @@ canvas {
 }
 
 .players {
-    overflow-y: scroll;
     overflow-x: hidden;
-    height: 45%;
+    height: 35%;
     width: 100%;
 }
 
 .chat-box {
-    height: 55%;
+    height: 50%;
 }
 
 .chat-wrapper {
     overflow-y: scroll;
     width: 100%;
     height: 90%;
+    margin-bottom: 5px;
 }
 
-.chat-wrapper > div img{
+.chat-wrapper>div img {
     position: relative;
     width: 10%;
 }
 
-.user-avatar{
+.user-avatar {
     position: relative;
     width: 10%;
 }
 
-.chat-box,
-.paint-tools-wrapper {
-    margin-top: 15px;
+.chat-box {
+    margin-top: 20px
 }
 
 .send-message-wrapper {
@@ -334,6 +400,12 @@ canvas {
 OVERLAY-STYLE
 *******/
 
+.dash-canvas {
+    position: relative;
+    width: fit-content;
+    height: 80%;
+}
+
 .overlay {
     overflow: hidden;
     display: none;
@@ -344,8 +416,9 @@ OVERLAY-STYLE
     bottom: 0;
     right: 0;
     left: 0;
+    border: 1px solid transparent;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
+    z-index: 1000;
 }
 
 .overlay.active {
@@ -359,11 +432,11 @@ OVERLAY-STYLE
 }
 
 .overlay-content-wrapper {
-    display: flex;
+    display: inline-block;
     justify-content: center;
     position: relative;
     width: 80%;
-    height: 50%;
+    height: 80%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -380,26 +453,43 @@ OVERLAY-STYLE
     }
 }
 
-.overlay-content-wrapper h2 {
-    position: absolute;
+.overlayHeader {
+    position: relative;
+    left: 50%;
+    display: flex;
     text-align: center;
-    width: 100%;
-    font-size: 200%;
+    width: fit-content;
+    transform: translateX(-50%);
+    font-size: 120%;
     color: white;
     font-family: system-ui;
-    justify-content: center;
+    height: fit-content;
+    align-items: center;
+}
+
+.overlayHeader img {
+    position: relative;
+    height: 90%;
+    width: 20%;
 }
 
 .overlay-main-content {
-    position: absolute;
-    width: 50%;
+    position: relative;
+    border: 1px solid var(--border);
+    width: 40%;
     height: 50%;
-    top: 30%;
+    top: 10%;
+    left: 50%;
     display: none;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
     flex-wrap: wrap;
     justify-content: center;
+    transform: translateX(-50%);
+}
+
+.overlay-main-content img {
+    height: 95%;
+    padding: 0px 5px;
 }
 
 .overlay-main-content.active {
@@ -411,6 +501,11 @@ OVERLAY-STYLE
     cursor: pointer;
     font-size: 100%;
     text-align: center;
+    margin-bottom: 1px;
+}
+
+.overlay-main-content>div:nth-child(odd) {
+    background-color: var(--blue);
 }
 
 .overlay-btn {
@@ -479,7 +574,6 @@ LINK-TEXT-COPY-STYLE
 #game-link {
     width: 80%;
     border: 1px solid;
-    border-right: none;
     animation-duration: 1000ms;
     animation-delay: 240ms;
     animation-iteration-count: 1;
@@ -508,23 +602,28 @@ GAME-FILE-HELP-SECTION-STYLE
 ********/
 
 .help-box {
-    background-color: rgba(40, 40, 40, 0.5);
-    font-size: 90%;
+    font-size: 75%;
     position: relative;
-    display: none;
+    display: flex;
+    visibility: hidden;
     justify-content: space-evenly;
     width: 100%;
-    height: 8vh;
+    height: 7%;
     margin-bottom: 10px;
 }
 
 .help-box.active {
     display: flex;
+    visibility: visible;
+    height: 8%;
 }
 
 #wordDefinition {
+    border: 1px solid var(--border);
     position: relative;
     width: 80%;
+    overflow: hidden;
+    padding: 5px 20px;
 }
 
 #imageUrlRequestLink {
@@ -532,7 +631,7 @@ GAME-FILE-HELP-SECTION-STYLE
     width: 10%;
     display: flex;
     flex-direction: row;
-    border: 1px solid white;
+    border: 1px solid var(--border);
 }
 
 .icon-static {
@@ -602,37 +701,165 @@ OVERLAY-HELP-STYLE
 /*************
 bot - styles
 */
-.bot{
-    display: inline-block;
+
+.bot {
+    display: flex;
     position: relative;
-    background-color: rgba(40, 40, 40, 0.5);
-    width: 20%;
-    height: 3vh;
-    padding: 10px 20px;
-    margin-bottom: 10px;
+    background-color: #0e192b;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 5px 30px;
+    height: 5%;
+    margin-bottom: 5px;
     justify-content: center;
+    align-items: center;
 }
 
-.bot img{
-    width: 10%;
-    height: 90%;
-    padding: 6px;
-    position: relative;
-    top: 50%;
-    left: 10%;
-    transform: translate(-50%, -50%);
-    border-radius: 100%;
-    border: 2px solid #ffffffbb;
-}
-
-.bot.active img{
+.bot.active {
     border-color: green;
+}
+
+.bot img {
+    width: 30%;
+    height: 90%;
+    position: relative;
+    padding: 5px;
 }
 
 .bot span {
     position: relative;
-    top: -50%;
-    transform: translate(-50%, -50%);
-    font-family: system-ui;
+    font-size: 80%;
+    width: fit-content;
+}
 
+.mediaWrapper {
+    width: 80%;
+    justify-content: center;
+    height: 13vh;
+    left: 15%;
+    display: flex;
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: var(--media-background);
+}
+
+.mediaWrapper>video {
+    margin: 5px;
+}
+
+.mediaOverlayDropDownBtn {
+    width: 100%;
+    display: none;
+    justify-content: center;
+    cursor: pointer;
+    height: 20%;
+    background-color: rgba(255, 255, 255, 0.733)
+}
+
+.mediaOverlayDropDownBtn i {
+    font-size: 100%;
+    color: #344;
+    transition: 540ms;
+}
+
+.mediaOverlayDropDownBtn:hover i {
+    color: #000;
+    font-size: 120%;
+}
+
+.mediaElement {
+    height: 95%;
+    margin-left: 10px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: 10px;
+}
+
+.mediaElement div,
+.mediaElement video {
+    height: 100%;
+    top: 0%;
+    left: 0%;
+}
+
+.mediaElement .mediaOverlayController {
+    background: linear-gradient(to bottom, transparent 60%, #000000);
+    position: absolute;
+    z-index: 1003;
+    width: 100%;
+}
+
+.mediaElement .mediaOverlayController .mediaMice {
+    position: relative;
+    display: block;
+    border: 1px solid transparent;
+    width: fit-content;
+    height: fit-content;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
+    visibility: hidden;
+    padding: 10px;
+}
+
+.mediaElement .mediaOverlayController .mediaFaceUsername {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    font-size: 70%;
+    left: 5%;
+    top: 46%;
+}
+
+.mediaElement video {
+    z-index: 1002;
+}
+
+.mediaElement:hover .mediaOverlayController .mediaMice {
+    visibility: visible;
+}
+
+.mediaMice:hover {
+    background-color: rgba(226, 25, 25, 0.822);
+}
+
+.mediaMice.active {
+    background-color: rgba(226, 25, 25, 0.822);
+}
+
+.mediaElement.active .mediaOverlayController .mediaMice {
+    visibility: visible;
+}
+
+.mediaElement.active .mediaOverlayController {
+    background: linear-gradient(to bottom, transparent 45%, #000000);
+}
+
+.mediaElement:hover .mediaOverlayController {
+    background: linear-gradient(to bottom, transparent 45%, #000000);
+}
+
+video {
+    border-radius: 10px;
+}
+
+.user-Avatar {
+    position: relative;
+    display: inline-block;
+    width: 15%;
+    height: 15%;
+}
+
+.user-Avatar img {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
