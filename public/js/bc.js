@@ -6,7 +6,7 @@ let myFace = document.getElementById('myFace');
 let grid = document.querySelector('.mediaWrapper');
 let mediaOverlayDropDown = document.querySelector('.mediaOverlayDropDown');
 
-const SOCKET = io('http://localhost:3000');
+const SOCKET = io('https://dashoff-signal.herokuapp.com/');
 const config = {
     iceServer: [
         { urls: 'stun:stun.l.google.com:19302' },
