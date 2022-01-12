@@ -10,12 +10,11 @@ let USER = {
     username: username
 };
 
-if(window.location.hostname.indexOf('localhost') >= 0){
+if (window.location.hostname.indexOf('localhost') >= 0) {
     socket = new WebSocket('ws://localhost:4000/join?id=' + roomId + '&username=' + username);
-}else{
+} else {
     socket = new WebSocket('wss://' + window.location.hostname + '/join?id=' + roomId + '&username=' + username);
 }
-
 
 let sendRawToServer = (msg) => {
     if (socket) {
@@ -66,6 +65,8 @@ if (socket !== null) {
                 case typeMessage.GUSSED:
                     messageHandler.newChat(parsedData);
                     break;
+                case 'server':
+                    messageHandler.newChat(parsedData);
                 case typeMessage.SCORE:
                     messageHandler.showPlayerList(parsedData);
                     break;

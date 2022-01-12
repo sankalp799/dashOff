@@ -31,9 +31,6 @@ let overlayContentBox = document.querySelector('.overlay-main-content');
 // PAINT TOOL BOX
 let tools = document.getElementById('paintToolBox').style;
 
-let commentBtns = document.getElementById('CommentsContainer');
-document.getElementById('likeDrawing').addEventListener('click', handleComment);
-document.getElementById('dislikeDrawing').addEventListener('click', handleComment);
 
 // messageType
 let typeMessage = {
@@ -62,44 +59,12 @@ let typeMessage = {
     'ROUND_OVER': 17,
     'NEW_ROUND': 18,
     'WAIT_FOR_ENOUGH_PLAYERS': 19,
-    'IMAGE_URL': 20,
-    'DRAW_COMMENT': 21,
+    'IMAGE_URL': 20
 };
-
-const CHANGE_STARFIELD_SPEED = (speed) => {
-    /*
-    try {
-        ChangeSettings({
-            speed,
-        });
-    } catch (e) {
-        console.log('failed to change stars speed')
-    }
-    */
-}
 
 // message handler
 let messageHandler = {};
 
-function switchCommentStyle(evt) {}
-
-function handleComment(evt) {
-    !commentBtns.classList.contains('done') ? commentBtns.classList.add('done') : console.log('comment passed');
-    if (socket.OPEN) {
-        let message = {
-            roomId: sessionStorage.getItem('roomId'),
-            username: sessionStorage.getItem('username'),
-            type: typeMessage['DRAW_COMMENT'],
-            message: evt.target.getAttribute('id')
-        };
-        try {
-            const message_string = JSON.stringify(message);
-            socket.send(message_string);
-        } catch (e) {
-            console.log(e.message);
-        }
-    }
-}
 
 messageHandler.I_H = (links) => {
     if (links) {
@@ -180,13 +145,6 @@ messageHandler.newChat = (data) => {
         chat.innerHTML = `<img src='https://avatars.dicebear.com/api/bottts/freddy.svg' /> :- ${data.message}`;
         chat.innerText = data.message;
         chat.style.color = 'yellow';
-        chat.style.fontFamily = 'roboto';
-    }
-
-    if (data.type == 'server') {
-        chat.innerHTML = `<img src='https://avatars.dicebear.com/api/bottts/freddy.svg' /> :- ${data.message}`;
-        typeof(data['color']) == 'string' ? chat.style.color = data['color']: chat.style.color = 'yellow';
-        chat.style.fontFamily = 'roboto';
     }
 
     // embed html element
@@ -304,7 +262,6 @@ messageHandler.startGame = (data) => {
         overlay.classList.remove('active');
     }
     startAudio.play();
-    CHANGE_STARFIELD_SPEED(7);
 };
 
 
@@ -342,7 +299,6 @@ let extract_meaning = (word, data) => {
 
 
 messageHandler.chooseWord = (list, callback) => {
-    CHANGE_STARFIELD_SPEED(4);
     let user = {
         id: sessionStorage.getItem('roomId'),
         username: sessionStorage.getItem('username')
@@ -408,7 +364,6 @@ messageHandler.chooseWord = (list, callback) => {
 };
 
 messageHandler.callGameOver = (list) => {
-    CHANGE_STARFIELD_SPEED(3);
     timerAudio.src = window.location.hostname + '/public/Timer_Audio.mp3';
     timerAudio.pause();
     console.log('GAME_OVER');
@@ -437,7 +392,6 @@ messageHandler.callGameOver = (list) => {
 };
 
 messageHandler.waitForPlayerToChoose = (username) => {
-    CHANGE_STARFIELD_SPEED(4);
     tools.display = 'none';
     wordDiv.innerText = '';
     if (!overlay.classList.contains('active')) {
@@ -449,7 +403,6 @@ messageHandler.waitForPlayerToChoose = (username) => {
 };
 
 messageHandler.guessWord = (username, count) => {
-    CHANGE_STARFIELD_SPEED(4);
     if (overlay.classList.contains('active')) {
         overlay.classList.remove('active');
     }
@@ -481,13 +434,14 @@ messageHandler.showGuessResult = (data) => {
         return b.current_score - a.current_score;
     });
 
-    overlayHeading.innerText = 'Guess Results';
+    overlayHeading.innerText = 'Time Out';
     overlayContentBox.innerHTML = '';
 
     sorted_data.forEach((player) => {
         let playerDiv = document.createElement('div');
-        playerDiv.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/identicon/${player.username}.svg' /> :- ${player.username} : ${player.current_score}`;
-        overlayContentBox.insertAdjacentElement('beforeend', playerDiv);
+        playerDiv.innerText = player.username + ':  +' + player.current_score;
+        playerDiv.innerHTML = `<img class='user-avatar' src='https://avatars.dicebear.com/api/identicon/${player.username}.svg' />` + playerDiv.innerHTML;
+        overlayContentBox.insertAdjacsssssssentElement('beforeend', playerDiv);
     });
 };
 

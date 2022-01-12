@@ -25,6 +25,7 @@
         "request": "^2.88.2",
         "socket.io": "^4.4.0",
         "ws": "^7.5.0",
-        "youtube-audio-stream": "^0.3.39"
+        "youtube-audio-stream": "^0.3.39",
+        "ytdl-core": "^4.9.2"
     }
 }

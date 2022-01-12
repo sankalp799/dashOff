@@ -20,10 +20,11 @@ html {
     margin: 0;
     font-size: 18px;
     font-family: system-ui, Arial, sans-serif;
+    /*
     background-image: radial-gradient(#00000049, transparent), url(./doodle1.jpg);
     background-position: center;
     background-size: cover;
-    /*
+    
     animation: animatedBackground 18s linear infinite alternate;
     
     background-color: var(--background);
@@ -863,3 +864,34 @@ video {
     width: 100%;
     height: 100%;
 }
+
+.like-dislike-container {
+    position: absolute;
+    left: -15%;
+    padding: 10px;
+}
+
+.like-dislike-container>i {
+    padding: 10px;
+    border: 1px solid white;
+    width: fit-content;
+    cursor: pointer;
+}
+
+@keyframes likeDislikeBtns {
+    0% {
+        transform: rotate(2deg);
+    }
+    100% {
+        transform: rotate(-3deg);
+    }
+}
+
+.like-dislike-container>i:hover {
+    animation: likeDislikeBtns infinite ease-in-out 300ms;
+}
+
+.like-dislike-container.done {
+    display: none;
+}
+

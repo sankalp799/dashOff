@@ -1,5 +1,5 @@
 <div class="user-Avatar">
-    <img src='https://avatars.dicebear.com/api/identicon/sanku.png' />
+    <img src='https://avatars.dicebear.com/api/identicon/sanku.svg' id="userAvatar" />
 </div>
 <form method="POST" action='/create' id='createRoom'>
     <select name="rounds" class="game-round-select">
@@ -9,7 +9,7 @@
         <option value="5">5</option>
         <option value="6">6</option>
     </select>
-    <input type="text" name='username' placeholder="username" class="usernameField" />
+    <input type="text" name='username' placeholder="username" class="usernameField" id="getUsername" />
     <select name="counter" class="game-counter-select">
         <option value="30">30s</option>
         <option value="45">45s</option>
@@ -22,3 +22,5 @@
 </form>
 <div id='roomLinkDiv' class="room-link"></div>
 <script defer type="text/javascript" src='public/client.js'></script>
+<script type="text/javascript" defer src="public/warpspeed.min.js"></script>
+<script defer type="text/javascript" src='public/wsa.js'></script>

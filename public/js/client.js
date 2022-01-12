@@ -1,9 +1,13 @@
 let app = {};
-
 app.client = {};
 
 app.config = {};
 app.config.username = '';
+document.getElementById('getUsername').addEventListener('keypress', (evt) => {
+    let text = document.getElementById('userAvatar');
+    let val = evt.target.value;
+    text.setAttribute('src', `https://avatars.dicebear.com/api/identicon/${val}.svg`)
+})
 
 
 if (window.location.pathname.indexOf('join') > -1) {
