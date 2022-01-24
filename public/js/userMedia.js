@@ -1,7 +1,7 @@
 const peerConns = {};
 let localStream;
 let freddy = new Audio();
-freddy.crossOrigin = 'Anonymous';
+// freddy.crossOrigin = 'Anonymous';
 const ROOM_ID = sessionStorage.getItem("roomId") || '420';
 const USERNAME = sessionStorage.getItem("username") || 'Anonymous';
 let myFace = document.getElementById('myFace');
@@ -373,6 +373,7 @@ function reNegotiateMedia(evt){
     	})
 }
 
+/*******
 function __freddy_visual_analyser__() {
     let fctx = freddyVisualPlatform.getContext('2d');
     let f_AW = freddyVisualPlatform.width;
@@ -425,7 +426,7 @@ function __freddy_visual_analyser__() {
 
     __animate__();
 }
-
+    **/
 // __freddy_visual_analyser__();
 
 
