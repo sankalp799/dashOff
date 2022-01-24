@@ -6,11 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="public/game.css">
-    <title>DASH-OFF | GAME</title>
+    <title>Squiggle | GAME</title>
 </head>
 
 <body>
     <canvas id="bgCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%;"></canvas>
+    <div class="userMediaToggleControls">
+    	<div id="userMediaToggleVideo" media-type="video"><i class="fas fa-video-slash"></i></div>
+    	<div id="userMediaToggleMic" media-type="audio"><i class="fas fa-microphone-slash"></i></div>
+    </div>
     <div class='mediaWrapper' id="friendsMedia">
         <div class='mediaElement'>
             <div class='mediaOverlayController'>
@@ -30,10 +34,18 @@
             ------------->
     </div>
     <div class="wrapper active main-game-container">
-
-        <div class="bot">
-            <img src='https://avatars.dicebear.com/api/bottts/freddy.svg' />
-            <span>Freddy</span>
+        <div class="freddy">
+            <span class="bot">
+                <img src='https://avatars.dicebear.com/api/bottts/freddy.svg' />
+                <span>Freddy</span>
+            </span>
+            <span class="freddy-music" id="freddyMusic">
+                <canvas class="freddy-audio-analyzer" id="freddyCanvas"></canvas>
+                <span class="freddy-audio-data">
+                    <img class="freddy-audio-img"/>
+                    <span class="freddy-audio-info">...</span>
+                </span>
+            </span>
         </div>
 
         <div class="word-letters">
@@ -93,16 +105,18 @@
 
             <div class="score-and-chat-wrapper">
                 <div class="players" id="playersList">
-                    <!------------->
+                    <!------------
                     <div><img src='https://avatars.dicebear.com/api/identicon/sankalp.svg' /> Sankalp: 911</div>
                     <div><img src='https://avatars.dicebear.com/api/identicon/piyush.svg' /> Piyush: 459</div>
-
+					--->
 
                 </div>
                 <div class="chat-box">
                     <div class='chat-wrapper' id='chatBox'>
+                    <!---
                         <div><img src='https://avatars.dicebear.com/api/identicon/sankalp.svg' /> :- number plz</div>
                         <div><img src='https://avatars.dicebear.com/api/identicon/piyush.svg' /> :- get lost</div>
+                       -->
                     </div>
                     <div class="send-message-wrapper">
                         <input type="text" name='message' id='message-textbox' class="textbox" />
@@ -119,7 +133,7 @@
     <script type="text/javascript" src="public/util.js"></script>
     <script defer type="text/javascript" src="public/canvas.js"></script>
     <script defer type="text/javascript" src="public/audio.js"></script>
-    <script defer type="text/javascript" src="public/bc.js"></script>
+    <script defer type="text/javascript" src="public/userMedia.js"></script>
     <script type="text/javascript" defer src="public/warpspeed.min.js"></script>
     <script defer type="text/javascript" src='public/wsa.js'></script>
     </div>

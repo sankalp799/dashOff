@@ -18,7 +18,11 @@
         <option value="120">120s</option>
     </select>
     <br />
-    <input type="submit" name='submit' value='create' class="createRoomBtn" />
+    <div class="create-form-submissions">
+        <input type="submit" name='submit' value='private' class="createRoomBtn" />
+        <input type="submit" name="submit" value="public" />
+        <input type="submit" name="submit" value="join" />
+    </div>
 </form>
 <div id='roomLinkDiv' class="room-link"></div>
 <script defer type="text/javascript" src='public/client.js'></script>

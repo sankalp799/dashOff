@@ -3,7 +3,7 @@ app.client = {};
 
 app.config = {};
 app.config.username = '';
-document.getElementById('getUsername').addEventListener('keypress', (evt) => {
+document.getElementById('getUsername').addEventListener('keydown', (evt) => {
     let text = document.getElementById('userAvatar');
     let val = evt.target.value;
     text.setAttribute('src', `https://avatars.dicebear.com/api/identicon/${val}.svg`)
@@ -67,66 +67,71 @@ app.client.request = (method, path, payload, callback) => {
     xhr.send(payloadString);
 };
 
+app.client.createRoomRequest = (evt, rType) => {
+    let createForm = document.getElementById('createRoom');
+    let method = createForm.method.toUpperCase();
+    let formPath = createForm.action;
+    let username = '';
 
-app.client.createRoomRequest = () => {
-    document.querySelector('form').addEventListener('submit', evt => {
-        evt.preventDefault();
-        let createForm = document.getElementById('createRoom');
-        let method = createForm.method.toUpperCase();
-        let formPath = createForm.action;
-        let username = '';
+    let formPayload = {};
+    formPayload['rType'] = rType;
+    let formElements = createForm.elements;
+    for (let i = 0; i < formElements.length; i++) {
+        if (formElements[i].type == 'submit')
+            continue;
 
-        let formPayload = {};
-        let formElements = createForm.elements;
-        for (let i = 0; i < formElements.length; i++) {
-            if (formElements[i].type !== 'submit') {
-                if (formElements[i].name == 'username') {
-                    username = formElements[i].value;
-                }
-                formPayload[formElements[i].name] = formElements[i].value;
-            }
+        if (formElements[i].name == 'username') {
+            username = formElements[i].value;
         }
+        formPayload[formElements[i].name] = formElements[i].value;
+    }
 
-        // make ajax request for creating room
-        app.client.request(method, formPath, formPayload, (status, payload) => {
-            let linkDiv = document.getElementById('roomLinkDiv');
-            if (status == 200) {
-                if (username.length > 0) {
-                    sessionStorage.setItem('username', username);
-                }
-
-
-                // sessionStorage.setItem('link', payload.link);
-                //sessionStorage.setItem('link', payload.link.split('/')[1]);
-                let pathName = payload.link.split('/');
-                pathName = pathName[pathName.length - 1];
-                pathName = pathName.split('=')[1];
-
-                sessionStorage.setItem('roomId', pathName);
-                window.location.pathname = '/game';
-                /*
-                        linkDiv.style.visibility = 'visible';
-                        linkDiv.innerText = payload.link;
-                
-                        linkDiv.addEventListener('click', () => {
-                            navigator.clipboard.writeText(payload.link).then(() => {
-                                console.log('link coppied');
-                            });
-                        });
-                        */
-            } else {
-                linkDiv.innerHTML = '<p style="color:red;">' + payload.Error + '</p>';
-                linkDiv.style.visibility = 'visible';
-                console.log(payload.Error);
+    // make ajax request for creating room
+    app.client.request(method, formPath, formPayload, (status, payload) => {
+        let linkDiv = document.getElementById('roomLinkDiv');
+        if (status == 200) {
+            if (username.length > 0) {
+                sessionStorage.setItem('username', username);
             }
-        });
+
+
+            // sessionStorage.setItem('link', payload.link);
+            //sessionStorage.setItem('link', payload.link.split('/')[1]);
+            let pathName = payload.link.split('/');
+            pathName = pathName[pathName.length - 1];
+            pathName = pathName.split('=')[1];
+
+            sessionStorage.setItem('roomId', pathName);
+            window.location.pathname = '/game';
+            /*
+                    linkDiv.style.visibility = 'visible';
+                    linkDiv.innerText = payload.link;
+            
+                    linkDiv.addEventListener('click', () => {
+                        navigator.clipboard.writeText(payload.link).then(() => {
+                            console.log('link coppied');
+                        });
+                    });
+                    */
+        } else {
+            linkDiv.innerHTML = '<p style="color:red;">' + payload.Error + '</p>';
+            linkDiv.style.visibility = 'visible';
+            console.log(payload.Error);
+        }
     });
 }
 
-app.init = () => {
-    if (window.location.pathname.indexOf('join') < 0) {
-        app.client.createRoomRequest();
-    }
+app.client.handleFormEvent = (evt) => {
+    evt.preventDefault();
+    let rt = evt.target.getAttribute('value');
+    console.log(evt.target, rt);
+    app.client.createRoomRequest(evt, rt);
 }
 
-app.init();
+try{
+    document.getElementById('createRoom').addEventListener('submit', evt => evt.preventDefault());
+    document.querySelectorAll('.create-form-submissions input').forEach(si => si.addEventListener('click', app.client.handleFormEvent));
+}catch(e){
+    console.log(e.message)
+}
+

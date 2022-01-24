@@ -132,11 +132,23 @@ let chatBuddy = (evt) => {
     messageText.value = '';
     message = message.trim().length > 0 ? message.trim() : false;
     if (message) {
-        let chat = messageHandler.genMessage(typeMessage.CHAT, USER, message);
-        if (socket !== null) {
-            chat = JSON.stringify(chat);
-            socket.send(chat);
+        if(message[0] == '$'){
+            try{
+                SOCKET.emit('freddy', {
+                    rid: sessionStorage.getItem('roomId'),
+                    username: sessionStorage.getItem('username'),
+                    line: message,
+                });
+            }catch(e){
+                console.error(e);
+            }
         }
+            let chat = messageHandler.genMessage(typeMessage.CHAT, USER, message);
+            if (socket !== null) {
+                chat = JSON.stringify(chat);
+                socket.send(chat);
+            }
+        
     }
 }
 

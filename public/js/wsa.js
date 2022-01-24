@@ -11,7 +11,7 @@ const WSA_COLORS = [
 let wsa_config = {
     speed: 5,
     speedAdjFactor: 0.03,
-    density: 2,
+    density: 1,
     shape: "square",
     warpEffect: true,
     warpEffectLength: 8,

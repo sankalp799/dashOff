@@ -136,21 +136,6 @@ select {
     left: 25%;
 }
 
-.createRoomBtn {
-    text-align: center;
-    padding: 10px 20px;
-    margin-top: 30px;
-    outline: none;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30%;
-    cursor: pointer;
-    font-size: 110%;
-    border-radius: 5px;
-    border: none;
-}
-
 .room-link {
     color: red;
     visibility: hidden;
@@ -699,40 +684,6 @@ OVERLAY-HELP-STYLE
 }
 
 
-/*************
-bot - styles
-*/
-
-.bot {
-    display: flex;
-    position: relative;
-    background-color: #0e192b;
-    border-radius: 10px;
-    width: fit-content;
-    padding: 5px 30px;
-    height: 5%;
-    margin-bottom: 5px;
-    justify-content: center;
-    align-items: center;
-}
-
-.bot.active {
-    border-color: green;
-}
-
-.bot img {
-    width: 30%;
-    height: 90%;
-    position: relative;
-    padding: 5px;
-}
-
-.bot span {
-    position: relative;
-    font-size: 80%;
-    width: fit-content;
-}
-
 .mediaWrapper {
     width: 80%;
     justify-content: center;
@@ -894,4 +845,162 @@ video {
 .like-dislike-container.done {
     display: none;
 }
+
+.userMediaToggleControls{
+    display: block;
+    position: absolute;
+    top: 3%;
+    left: 5%;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.userMediaToggleControls > div{
+    display: block;
+    width: 100%;
+    margin-bottom: 4px;
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid white;
+    text-align: center;
+    transition: 450ms;
+}
+
+.userMediaToggleControls.active{
+    background: #fff;
+    color: red;
+}
+
+.create-form-submissions{
+    display: flex;
+    position: relative;
+    top: 25%;
+    justify-content: center;
+}
+
+.create-form-submissions > input{
+    width: fit-content;
+    cursor: pointer;
+    font-size: 90%;
+    outline: none;
+    position: relative;
+    border: none;
+    left: 0%;
+    top; 0%;
+    height: 40%;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: white;
+    border: 1px solid transparent;
+    transition: 350ms ease-in-out;
+    border-radius: 2px;
+}
+
+.create-form-submissions > input:hover{
+    padding: 12px 25px;
+    background-color: #eeeeeedd;
+}
+
+
+/************
+FREDDY-STYLES
+**/
+
+.freddy{
+    height: 8%;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.freddy .bot{
+    width: 20%;
+    height: 100%;
+    position: relative;
+    left: 0%;
+    top: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 15px;
+}
+
+.freddy .bot img{
+    height: 80%;
+    padding: 2px 5px;
+}
+
+.freddy .freddy-music{
+    position: relative;
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.freddy-audio-data,
+.freddy canvas{
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+
+.freddy canvas{
+    width: 35%;
+    background-color: transparent;
+}
+
+.freddy-audio-data{
+    background: linear-gradient(to right, #ffffff11 50%, #00000000);;
+    width: 60%;
+}
+
+.freddy-audio-img{
+    width: 25%;
+    outline: none;
+    border: 1px solid transparent;
+    border-radius: 5px; 
+    height: 100%;
+}
+
+.freddy-audio-info{
+    padding: 0px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
