@@ -14,6 +14,8 @@ let freddyVisualPlatform = document.getElementById('freddyCanvas');
 let freddyMusicImg = document.querySelector('.freddy-music img');
 let freddyMusicInfo = document.querySelector('.freddy-audio-info');
 
+window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+
 document.getElementById('userMediaToggleVideo').addEventListener('click', reNegotiateMedia);
 document.getElementById('userMediaToggleMic').addEventListener('click', reNegotiateMedia);
 
@@ -35,6 +37,9 @@ Peer.onicecandidate = evt => {
     Peer.addIceCandidate(evt.candidate);
 }
 */
+freddy.onplay = () => {
+	vslz(freddy, freddyVisualPlatform)
+}
 
 window.addEventListener('beforeunload', terminateConnection);
 
@@ -429,4 +434,66 @@ function __freddy_visual_analyser__() {
     **/
 // __freddy_visual_analyser__();
 
+function vslz(se, myCan) {
+    let actx = new AudioContext();
+    let analyser = actx.createAnalyser();
+    let audioSrc = actx.createMediaElementSource(se);
+    
+    audioSrc.connect(analyser);
+    analyser.connect(actx.destination);
+    analyser.fftSize = 256;
+    let frequencyData = new Uint8Array(analyser.frequencyBinCount);
+	
+    
+    let canvas = myCan,
+        cwidth = canvas.width,
+        cheight = canvas.height - 2,
+    ctx = canvas.getContext('2d'),
+    caps = [],
+    gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0.78, '#0437F2');
+    gradient.addColorStop(0.22, '#333');
+    
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    
+    
+    function renderFrame() {
+        let array = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(array);
+        
+        ctx.fillStyle = '#333';
+      	ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        let bw = (cwidth / analyser.frequencyBinCount) * 3;
+        let bh;
+        let bx=0;
+        let gap = 2;
+        
+        for(var i = 0; i < analyser.frequencyBinCount; i++) {
+        	bh = array[i]/2;
+        	if (caps.length < analyser.frequencyBinCount) {
+                caps.push(bh);
+            };
+            
+            ctx.fillStyle = '#fff';
+            if (bh < caps[i]) {
+                ctx.fillRect(i*bw+gap, cheight-(--caps[i]/1.6), bw, 1);
+            } else {
+                ctx.fillRect(i*bw+gap, cheight-bh/1.6, bw, 1);
+                caps[i] = bh;
+            };
 
+        	let r = bh + (25 * (i/analyser.frequencyBinCount));
+        	let g = 250 * (i/analyser.frequencyBinCount);
+        	let b = 50;
+	
+        	ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+        	ctx.fillRect(bx+gap,cheight-bh/1.6,bw,bh);
+
+        	bx += bw;
+      	}
+        requestAnimationFrame(renderFrame);
+    }
+    renderFrame();
+    
+};
