@@ -100,6 +100,8 @@ SOCKET.on('freddy:music:play', play => {
 SOCKET.on('freddy:kind', data => {
     let botChat = `<div><img src='https://avatars.dicebear.com/api/bottts/freddy.svg'/>: ${data}</div>`;
     document.querySelector('#chatBox').insertAdjacentHTML('beforeend', botChat);
+    data = data.toString().trim();
+    data = data.replace('\n', '<br />');
     if(typeof(xx_catch_xx) == 'function')
         xx_catch_xx({
             t: 'INFO',
@@ -134,7 +136,7 @@ SOCKET.on('freddy:error', err => {
     if(typeof(xx_catch_xx) == 'function')
         xx_catch_xx({
             t: 'ERR',
-            heading: `<img src="https://avatars.dicebear.com/api/bottts/freddy.svg" />Fredyy Problem`,
+            heading: `Fredyy Problem`,
             message: err.message
         });
 })
