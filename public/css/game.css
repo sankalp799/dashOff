@@ -978,25 +978,77 @@ FREDDY-STYLES
 
 
 
+/*************
+* CATCHER-ERR-STYLE
+*
+*****/
+.xX-catcher-Xx{
+	z-index:2000;
+	box-sizing: border-box;
+	position: absolute;
+	left: 50%;
+    top: 50%;
+	transform: translate(-50%, -50%);
+	width: 35%;
+	height: 35%;
+	display: none;
+	transition: 450ms ease-in-out;
+	background-color: #00A300;
+}
+
+.xX-catcher-Xx.vis{
+	display: inline-block;
+	/*
+	animation-name: catcher-err;
+	animation-duration: 550ms;
+	*/
+}
+
+@keyframe catcher-err{
+    
+}
+
+.xX-catcher-Xx>div{
+    position: relative;
+	width: 100%;
+	padding: 7px 14px;
+	box-sizing: border-box;
+	display: flex;
+}
+
+.xX-catcher-Xx-a{
+    border-bottom: 2px solid #ffffffaa;
+    display: flex;
+}
+
+.xX-catcher-Xx-a span{
+    width: 90%;
+    padding: 5px;
+    font-size: 130%;
+    text-transform: uppercase;
+}
+
+.xX-catcher-Xx-a i{
+    cursor: pointer;
+    border-left: 2px solid #ffffffbb;
+    padding-left: 8px;
+    padding-top: 5px;
+    text-align: center;
+    align-items: center;
+    font-size: 140%;
+}
 
 
+.xX-catcher-Xx-a i:hover {
+    color: #eee;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.xX-catcher-Xx-l{
+    display: block;
+    padding: 5px 10px;
+    font-size: 95%;
+    line-height: 160%;
+}
 
 
 

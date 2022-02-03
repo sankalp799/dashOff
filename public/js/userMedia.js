@@ -38,7 +38,7 @@ Peer.onicecandidate = evt => {
 }
 */
 freddy.onplay = () => {
-	vslz(freddy, freddyVisualPlatform)
+	// vslz(freddy, freddyVisualPlatform)
 }
 
 window.addEventListener('beforeunload', terminateConnection);
@@ -98,8 +98,15 @@ SOCKET.on('freddy:music:play', play => {
 });
 
 SOCKET.on('freddy:kind', data => {
-    const botChat = `<div><img src='https://avatars.dicebear.com/api/bottts/freddy.svg'/>: ${data}</div>`;
+    let botChat = `<div><img src='https://avatars.dicebear.com/api/bottts/freddy.svg'/>: ${data}</div>`;
     document.querySelector('#chatBox').insertAdjacentHTML('beforeend', botChat);
+    if(typeof(xx_catch_xx) == 'function')
+        xx_catch_xx({
+            t: 'INFO',
+            heading: 'Freddy To Rescue',
+            message: data,
+        });
+    console.log(data);
 });
 
 SOCKET.on('freddy:seek_plz', data => {
@@ -122,6 +129,15 @@ SOCKET.on('freddy:music:stop', data => {
         console.log('freddy> failed to stop music', e);
     }
 });
+
+SOCKET.on('freddy:error', err => {
+    if(typeof(xx_catch_xx) == 'function')
+        xx_catch_xx({
+            t: 'ERR',
+            heading: `<img src="https://avatars.dicebear.com/api/bottts/freddy.svg" />Fredyy Problem`,
+            message: err.message
+        });
+})
 
 SOCKET.on('freddy:music:pause', data => {
     if(!freddy.paused)

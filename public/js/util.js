@@ -571,3 +571,35 @@ imageRequestLink.addEventListener('click', (e) => {
         }
     }, 500);
 });
+
+function catch_closer() {
+	let dom = document.querySelector('.xX-catcher-Xx');
+	if(dom.classList.contains('vis'))
+		dom.classList.remove('vis');
+}
+
+function xx_catch_xx(err) {
+	let r = document.querySelector(':root');
+	let rs = getComputedStyle(r);
+	
+	let color = err['t'] == 'ERR' 
+		? '#c45e29f4' 
+		: (err['t'] == 'INFO' 
+			? '#0078d4f4' : '#407855f4');
+			
+	let dom = document.querySelector('.xX-catcher-Xx');
+	document.querySelector('.xX-catcher-Xx-a').innerHTML = `<span>${err['heading']}</span><i class="fas fa-window-close" onclick="catch_closer();"></i>`;
+	document.querySelector('.xX-catcher-Xx-l').innerHTML = `<div class="xX-catcher-Xx-a"></div><div class="xX-catcher-Xx-l">${err['message']}</div>`;
+	dom.style.backgroundColor=color;
+	if(!dom.classList.contains('vis'))
+		dom.classList.add('vis');
+}
+
+
+/*****
+xx_catch_xx({
+	t: 'INFO',
+	heading: 'Welcome',
+	message: '$skip: cmd not found',
+})
+*/
