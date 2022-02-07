@@ -186,7 +186,7 @@ SOCKET.on('joined', () => {
     
     SOCKET.on('rtc:re-negotiate-media-offer', async (sid, sdp, uname) => {
     	try{
-    	
+            console.log('rtc:re-negotiating-media-offer-received');	
     		// adding my stream here
     		localStream.getTracks().forEach(track => {
         		peerConns[sid].addTrack(track, localStream);

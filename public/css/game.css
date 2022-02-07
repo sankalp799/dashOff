@@ -998,14 +998,18 @@ FREDDY-STYLES
 
 .xX-catcher-Xx.vis{
 	display: inline-block;
-	/*
 	animation-name: catcher-err;
-	animation-duration: 550ms;
-	*/
+	animation-duration: 450ms;
 }
 
-@keyframe catcher-err{
-    
+@keyframes catcher-err{
+    from{
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    to{
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 .xX-catcher-Xx>div{

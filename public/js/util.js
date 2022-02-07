@@ -574,8 +574,12 @@ imageRequestLink.addEventListener('click', (e) => {
 
 function catch_closer() {
 	let dom = document.querySelector('.xX-catcher-Xx');
-	if(dom.classList.contains('vis'))
+    
+    console.log(dom.animate([ { transform: 'scale(1)' } ], { duration: 300}));
+	
+    if(dom.classList.contains('vis'))
 		dom.classList.remove('vis');
+
 }
 
 function xx_catch_xx(err) {
@@ -596,10 +600,10 @@ function xx_catch_xx(err) {
 }
 
 
-/*****
-xx_catch_xx({
+
+setTimeout(() => xx_catch_xx({
 	t: 'INFO',
 	heading: 'Welcome',
 	message: '$skip: cmd not found',
-})
-*/
+}), 2000);
+
