@@ -16,13 +16,21 @@ let freddyMusicInfo = document.querySelector('.freddy-audio-info');
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
-document.getElementById('userMediaToggleVideo').addEventListener('click', reNegotiateMedia);
-document.getElementById('userMediaToggleMic').addEventListener('click', reNegotiateMedia);
+document.querySelector('[face-toggle-btn]').addEventListener('click', (evt = null) => {
+    evt.target.classList.toggle('off');
+    reNegotiateMedia('video');
+    console.log(this);
+});
+document.querySelector('[mic-toggle-btn]').addEventListener('click', (evt = null) => {
+    evt.target.classList('off');
+    reNegotiateMedia('audio');
+    console.log(this);
+});
 
-const SOCKET = window.location.hostname.indexOf('localhost') >= 0 ? 
-	io('http://localhost:3000/') : 
-	io('https://dashoff-signal.herokuapp.com/');
-	
+const SOCKET = window.location.hostname.indexOf('localhost') >= 0 ?
+    io('http://localhost:3000/') :
+    io('https://dashoff-signal.herokuapp.com/');
+
 const config = {
     iceServer: [
         { urls: 'stun:stun.l.google.com:19302' },
@@ -38,7 +46,7 @@ Peer.onicecandidate = evt => {
 }
 */
 freddy.onplay = () => {
-	// vslz(freddy, freddyVisualPlatform)
+    // vslz(freddy, freddyVisualPlatform)
 }
 
 window.addEventListener('beforeunload', terminateConnection);
@@ -81,7 +89,7 @@ SOCKET.on('connect', () => {
 //
 SOCKET.on('freddy:music:data', data => {
     console.log(data);
-    if(!freddy.paused)
+    if (!freddy.paused)
         freddy.pause();
     freddy.src = data.url;
     SOCKET.emit('freddy:music:all_set', ROOM_ID);
@@ -93,16 +101,19 @@ SOCKET.on('freddy:music:data', data => {
 })
 
 SOCKET.on('freddy:music:play', play => {
-    if(freddy.paused)
+    if (freddy.paused)
         freddy.play();
 });
 
 SOCKET.on('freddy:kind', data => {
+    /******************
     let botChat = `<div><img src='https://avatars.dicebear.com/api/bottts/freddy.svg'/>: ${data}</div>`;
     document.querySelector('#chatBox').insertAdjacentHTML('beforeend', botChat);
+    **/
+
     data = data.toString().trim();
     data = data.replace('\n', '<br />');
-    if(typeof(xx_catch_xx) == 'function')
+    if (typeof(xx_catch_xx) == 'function')
         xx_catch_xx({
             t: 'INFO',
             heading: 'Freddy To Rescue',
@@ -113,27 +124,27 @@ SOCKET.on('freddy:kind', data => {
 
 SOCKET.on('freddy:seek_plz', data => {
     const { to } = data;
-    if(!freddy.paused){
-        freddy.currentTime = to;    
+    if (!freddy.paused) {
+        freddy.currentTime = to;
     }
 });
 
 SOCKET.on('freddy:music:resume', data => {
-    if(freddy.paused)
+    if (freddy.paused)
         freddy.play();
 });
 
 SOCKET.on('freddy:music:stop', data => {
-    try{
+    try {
         freddy.stop();
         freddy.src = undefined;
-    }catch(e){
+    } catch (e) {
         console.log('freddy> failed to stop music', e);
     }
 });
 
 SOCKET.on('freddy:error', err => {
-    if(typeof(xx_catch_xx) == 'function')
+    if (typeof(xx_catch_xx) == 'function')
         xx_catch_xx({
             t: 'ERR',
             heading: `Fredyy Problem`,
@@ -142,7 +153,7 @@ SOCKET.on('freddy:error', err => {
 })
 
 SOCKET.on('freddy:music:pause', data => {
-    if(!freddy.paused)
+    if (!freddy.paused)
         freddy.pause();
 });
 // SOCKET.emit('freddy', { line: '$play lion in the jungle'})
@@ -179,52 +190,51 @@ SOCKET.on('joined', () => {
             .then(remoteDesSuc, remoteDesFail);
     })
 
-    SOCKET.on('rtc:candidate', async (data) => {
+    SOCKET.on('rtc:candidate', async(data) => {
         peerConns[data.from].addIceCandidate(data.candidate)
             .then(() => console.log('successfully candidate added'), () => console.log('failed to add candidate'));
     })
-    
-    SOCKET.on('rtc:re-negotiate-media-offer', async (sid, sdp, uname) => {
-    	try{
-            console.log('rtc:re-negotiating-media-offer-received');	
-    		// adding my stream here
-    		localStream.getTracks().forEach(track => {
-        		peerConns[sid].addTrack(track, localStream);
-    		})
-    		
-    		peerConns[sid].setRemoteDescription(sdp)
-            	.then(remoteDesSuc, remoteDesFail);
 
-        	OFFER_RESPONSE_ANS(peerConns[sid], sid, 'rtc:re-negotiate-media-answer');
-    	}catch(e){
-    		handleError(e, 'Failed To Switch Media Please Try Again');
-    	}
+    SOCKET.on('rtc:re-negotiate-media-offer', async(sid, sdp, uname) => {
+        try {
+            console.log('rtc:re-negotiating-media-offer-received');
+            // adding my stream here
+            localStream.getTracks().forEach(track => {
+                peerConns[sid].addTrack(track, localStream);
+            })
+
+            peerConns[sid].setRemoteDescription(sdp)
+                .then(remoteDesSuc, remoteDesFail);
+
+            OFFER_RESPONSE_ANS(sid, 'rtc:re-negotiate-media-answer');
+        } catch (e) {
+            handleError(e, 'Failed To Switch Media Please Try Again');
+        }
     })
-    
-    SOCKET.on('rtc:re-negotiate-req', sid => {
-    	// create re-negotiation offer to socket id [sid]
-    	try{
-    	
-    		// adding my stream here
-    		localStream.getTracks().forEach(track => {
-        		peerConns[sid].addTrack(track, localStream);
-    		})
-    		
-    		CREATE_OFFER(peerConns[sid], sid, 'rtc:re-negotiate-media-offer');
-    	}catch(e){
-    		handleError(e, 'Failed To Switch Media Please Try Again');
-    	}
+
+    SOCKET.on('rtc:re-negotiate-req', (sid) => {
+        // create re-negotiation offer to socket id [sid]
+        try {
+            // adding my stream here
+            localStream.getTracks().forEach(track => {
+                peerConns[sid].addTrack(track, localStream);
+            })
+
+            CREATE_OFFER(sid, 'rtc:re-negotiate-media-offer');
+        } catch (e) {
+            handleError(e, 'Failed To Switch Media Please Try Again');
+        }
     })
-    
+
     SOCKET.on('rtc:re-negotiate-media-answer', (id, sdp) => {
-    	// create re-negotiation anwser here to sid
-    	peerConns[id].setRemoteDescription(sdp)
+        // create re-negotiation anwser here to sid
+        peerConns[id].setRemoteDescription(sdp)
             .then(remoteDesSuc, remoteDesFail);
     })
 })
 
-function handleError(error, devMsg){
-	console.log(devMsg);
+function handleError(error, devMsg) {
+    console.log(devMsg);
 }
 
 function handleIceCandidate(event, id) {
@@ -258,7 +268,11 @@ function createVideoElement(id, uname) {
 }
 
 function handleTracks(streams, id) {
-    document.getElementById('vid-' + id).srcObject = streams[0];
+    console.log(id + ': ', streams[0]);
+    
+    let vid_remote = document.getElementById('vid-' + id);
+    vid_remote.srcObject = null;
+    vid_remote.srcObject = streams[0];
 
 }
 
@@ -332,18 +346,18 @@ function INIT_USER_RTC_CONNECTION(id, uname, cb) {
         handleIceCandidate(evt, id);
     };
 
-    rtcConn.ontrack = evt => {
-        handleTracks(evt.streams, id);
+    rtcConn.ontrack = ({ track, streams }) => {
+        handleTracks(streams, id);
     }
 
-    cb(rtcConn, id);
+    cb(id);
 }
 
-function CREATE_OFFER(rtcConn, id, sEvent=null) {
-	sEvent = sEvent != null ? sEvent : 'rtc:offer';
-    rtcConn.createOffer()
+function CREATE_OFFER(id, sEvent = null) {
+    sEvent = sEvent != null ? sEvent : 'rtc:offer';
+    peerConns[id].createOffer()
         .then((sdp) => {
-            rtcConn.setLocalDescription(sdp)
+            peerConns[id].setLocalDescription(sdp)
                 .then(localDesSuc, localDesFail);
             SOCKET.emit(sEvent, {
                 to: id,
@@ -354,19 +368,19 @@ function CREATE_OFFER(rtcConn, id, sEvent=null) {
 }
 
 function CALL_ON_OFFER(id, sdp, uname) {
-    INIT_USER_RTC_CONNECTION(id, uname, (conn, id) => {
-        conn.setRemoteDescription(sdp)
+    INIT_USER_RTC_CONNECTION(id, uname, (id) => {
+        peerConns[id].setRemoteDescription(sdp)
             .then(remoteDesSuc, remoteDesFail);
 
-        OFFER_RESPONSE_ANS(conn, id);
+        OFFER_RESPONSE_ANS(id);
     });
 }
 
-function OFFER_RESPONSE_ANS(rtcConn, id, sEvent=null) {
-	sEvent = sEvent != null ? sEvent : 'rtc:answer';
-    rtcConn.createAnswer()
+function OFFER_RESPONSE_ANS(id, sEvent = null) {
+    sEvent = sEvent != null ? sEvent : 'rtc:answer';
+    peerConns[id].createAnswer()
         .then((sdp) => {
-            rtcConn.setLocalDescription(sdp)
+            peerConns[id].setLocalDescription(sdp)
                 .then(localDesSuc, localDesFail);
             SOCKET.emit(sEvent, {
                 to: id,
@@ -377,23 +391,32 @@ function OFFER_RESPONSE_ANS(rtcConn, id, sEvent=null) {
         });
 }
 
-function reNegotiateMedia(evt){
-	let type = evt.target.getAttribute("media-type");
-	let constrains_t = mediaConstraints;
-	constrains_t[type] = !constrains_t[type] ? true : false;
-	navigator
-    	.mediaDevices
-    	.getUserMedia(constrains_t)
-    	.then(stream => {
-        	myFace.srcObject = stream;
-        	localStream = stream;
-        	setTimeout(() => {
-            	SOCKET.emit('rtc:re-negotiate-media', ROOM_ID, USERNAME);
-        	}, 1000);
-    	})
-    	.catch(err => {
-        	console.error(err);
-    	})
+function reNegotiateMedia(type = null) {
+    if (type != null) {
+        mediaConstraints[type] = mediaConstraints[type] ? false : true;
+        console.log('re-nego-init');
+        console.log('type- ', type, mediaConstraints);
+
+        navigator
+            .mediaDevices
+            .getUserMedia(mediaConstraints)
+            .then(stream => {
+                myFace.srcObject = stream;
+                localStream = null;
+                localStream = stream;
+
+                setTimeout(() => {
+                    // for test 
+                    // console.log
+                    console.log('local--> ', localStream.getTracks());
+                    SOCKET.emit('rtc:re-negotiate-media', ROOM_ID, USERNAME);
+                }, 1000);
+            })
+            .catch(err => {
+                console.error(err);
+            })
+    } else
+        console.log('type: null');
 }
 
 /*******
@@ -456,62 +479,62 @@ function vslz(se, myCan) {
     let actx = new AudioContext();
     let analyser = actx.createAnalyser();
     let audioSrc = actx.createMediaElementSource(se);
-    
+
     audioSrc.connect(analyser);
     analyser.connect(actx.destination);
     analyser.fftSize = 256;
     let frequencyData = new Uint8Array(analyser.frequencyBinCount);
-	
-    
+
+
     let canvas = myCan,
         cwidth = canvas.width,
         cheight = canvas.height - 2,
-    ctx = canvas.getContext('2d'),
-    caps = [],
-    gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        ctx = canvas.getContext('2d'),
+        caps = [],
+        gradient = ctx.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0.78, '#0437F2');
     gradient.addColorStop(0.22, '#333');
-    
-    ctx.clearRect(0,0, canvas.width, canvas.height);
-    
-    
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
     function renderFrame() {
         let array = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(array);
-        
+
         ctx.fillStyle = '#333';
-      	ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
         let bw = (cwidth / analyser.frequencyBinCount) * 3;
         let bh;
-        let bx=0;
+        let bx = 0;
         let gap = 2;
-        
-        for(var i = 0; i < analyser.frequencyBinCount; i++) {
-        	bh = array[i]/2;
-        	if (caps.length < analyser.frequencyBinCount) {
+
+        for (var i = 0; i < analyser.frequencyBinCount; i++) {
+            bh = array[i] / 2;
+            if (caps.length < analyser.frequencyBinCount) {
                 caps.push(bh);
             };
-            
+
             ctx.fillStyle = '#fff';
             if (bh < caps[i]) {
-                ctx.fillRect(i*bw+gap, cheight-(--caps[i]/1.6), bw, 1);
+                ctx.fillRect(i * bw + gap, cheight - (--caps[i] / 1.6), bw, 1);
             } else {
-                ctx.fillRect(i*bw+gap, cheight-bh/1.6, bw, 1);
+                ctx.fillRect(i * bw + gap, cheight - bh / 1.6, bw, 1);
                 caps[i] = bh;
             };
 
-        	let r = bh + (25 * (i/analyser.frequencyBinCount));
-        	let g = 250 * (i/analyser.frequencyBinCount);
-        	let b = 50;
-	
-        	ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-        	ctx.fillRect(bx+gap,cheight-bh/1.6,bw,bh);
+            let r = bh + (25 * (i / analyser.frequencyBinCount));
+            let g = 250 * (i / analyser.frequencyBinCount);
+            let b = 50;
 
-        	bx += bw;
-      	}
+            ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+            ctx.fillRect(bx + gap, cheight - bh / 1.6, bw, bh);
+
+            bx += bw;
+        }
         requestAnimationFrame(renderFrame);
     }
     renderFrame();
-    
+
 };

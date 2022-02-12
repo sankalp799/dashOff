@@ -852,6 +852,7 @@ video {
     top: 3%;
     left: 5%;
     padding: 10px;
+    border: none;
     border-radius: 10px;
     text-align: center;
 }
@@ -867,9 +868,10 @@ video {
     transition: 450ms;
 }
 
-.userMediaToggleControls.active{
+.userMediaToggleControls > div.off{
     background: #fff;
     color: red;
+    border-color: red;
 }
 
 .create-form-submissions{
