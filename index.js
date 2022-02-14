@@ -1,3 +1,4 @@
+const os = require('os');
 const server = require('./lib/server');
 // const signalServer = require('./websocket-webrtc/index');
 // const cluster = require('cluster');
@@ -13,7 +14,7 @@ if(cluster.isMaster){
 }
 
 */
-
+console.log('host> ', os.hostname());
 server.init();
 
 // signalServer();

@@ -90,6 +90,7 @@ app.client.createRoomRequest = (evt, rType) => {
     app.client.request(method, formPath, formPayload, (status, payload) => {
         let linkDiv = document.getElementById('roomLinkDiv');
         if (status == 200) {
+            console.log(payload);
             if (username.length > 0) {
                 sessionStorage.setItem('username', username);
             }
