@@ -992,7 +992,7 @@ FREDDY-STYLES
     top: 50%;
 	transform: translate(-50%, -50%);
 	width: 35%;
-	height: 35%;
+	height: fit-content%;
 	display: none;
 	transition: 450ms ease-in-out;
 	background-color: #00A300;

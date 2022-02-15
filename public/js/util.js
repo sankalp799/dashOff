@@ -601,9 +601,4 @@ function xx_catch_xx(err) {
 
 
 
-setTimeout(() => xx_catch_xx({
-	t: 'INFO',
-	heading: 'Welcome',
-	message: '$skip: cmd not found',
-}), 2000);
 

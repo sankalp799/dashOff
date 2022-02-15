@@ -110,9 +110,9 @@ SOCKET.on('freddy:kind', data => {
     let botChat = `<div><img src='https://avatars.dicebear.com/api/bottts/freddy.svg'/>: ${data}</div>`;
     document.querySelector('#chatBox').insertAdjacentHTML('beforeend', botChat);
     **/
-
+    console.log('freddy> ', data);
     data = data.toString().trim();
-    data = data.replace('\n', '<br />');
+    data = data.replaceAll('\n', '<br />');
     if (typeof(xx_catch_xx) == 'function')
         xx_catch_xx({
             t: 'INFO',
@@ -176,7 +176,15 @@ SOCKET.on('user:left', (id) => {
 
 SOCKET.on('joined', () => {
     console.log('joined');
+    
 
+    setTimeout(() => { 
+        SOCKET.emit('freddy', {
+            rid: ROOM_ID,
+            line: '$help',
+        });
+    }, 500);
+    
     SOCKET.on('rtc:call', async(id, uname) => {
         console.log(`${id} calling...`);
 
@@ -538,3 +546,7 @@ function vslz(se, myCan) {
     renderFrame();
 
 };
+
+
+
+
