@@ -911,19 +911,20 @@ FREDDY-STYLES
 
 .freddy{
     height: 8%;
-    width: 60%;
+    width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .freddy .bot{
+    
     width: 20%;
     height: 100%;
     position: relative;
     left: 0%;
     top: 0%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     padding: 0px 15px;
@@ -953,17 +954,18 @@ FREDDY-STYLES
 }
 
 .freddy canvas{
-    width: 35%;
+    border: 1px solid white;
+    width: 50%;
     background-color: transparent;
 }
 
 .freddy-audio-data{
     background: linear-gradient(to right, #ffffff11 50%, #00000000);;
-    width: 60%;
+    width: 45%;
 }
 
 .freddy-audio-img{
-    width: 25%;
+    width: 20%;
     outline: none;
     border: 1px solid transparent;
     border-radius: 5px; 
