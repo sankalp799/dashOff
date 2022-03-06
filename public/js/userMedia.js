@@ -1,6 +1,8 @@
+// @ts-nocheck
 const peerConns = {};
-let localStream;
-let freddy = new Audio();
+let localStream=null;
+let freddy = document.getElementById('freddyMusicBot')
+
 // freddy.crossOrigin = 'Anonymous';
 const ROOM_ID = sessionStorage.getItem("roomId") || '420';
 const USERNAME = sessionStorage.getItem("username") || 'Anonymous';
@@ -16,16 +18,6 @@ let freddyMusicInfo = document.querySelector('.freddy-audio-info');
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
-document.querySelector('[face-toggle-btn]').addEventListener('click', (evt = null) => {
-    evt.target.classList.toggle('off');
-    reNegotiateMedia('video');
-    console.log(this);
-});
-document.querySelector('[mic-toggle-btn]').addEventListener('click', (evt = null) => {
-    evt.target.classList('off');
-    reNegotiateMedia('audio');
-    console.log(this);
-});
 
 const SOCKET = window.location.hostname.indexOf('localhost') >= 0 ?
     io('http://localhost:3000/') :
@@ -34,76 +26,87 @@ const SOCKET = window.location.hostname.indexOf('localhost') >= 0 ?
 const config = {
     iceServer: [
         { urls: 'stun:stun.l.google.com:19302' },
-        { urls: 'stun:stun1.l.google.com:19302' },
-        { urls: 'stun:stun2.l.google.com:19302' },
-        { urls: 'stun:stun3.l.google.com:19302' },
-        { urls: 'stun:stun4.l.google.com:19302' },
     ]
 };
+
+
+const mediaConstraints = {
+    video: true,
+    auido: false,
+}
+
+
+/*
+
+document.getElementById('MoreMeme').addEventListener('click', () => {
+    try {
+        SOCKET.emit('freddy:meme:please', {
+            rid: ROOM_ID,
+            uname: USERNAME,
+        })
+    } catch (e) {
+        console.error(e);
+    }
+})
+*/
+
 /*
 Peer.onicecandidate = evt => {
     Peer.addIceCandidate(evt.candidate);
 }
 */
+
+document.querySelector('[face-toggle-btn]').addEventListener('click', (evt = null) => {
+    evt.target.classList.toggle('off');
+    reNegotiateMedia('video');
+});
+document.querySelector('[mic-toggle-btn]').addEventListener('click', (evt = null) => {
+    evt.target.classList('off');
+    reNegotiateMedia('audio');
+});
+
 freddy.onplay = () => {
     vslz(freddy, freddyVisualPlatform)
 }
 
 window.addEventListener('beforeunload', terminateConnection);
 
-const mediaConstraints = {
-    video: {
-        width: {
-            min: 640,
-            max: 1024
-        },
-        height: {
-            min: 480,
-            max: 720
-        },
-    },
-    audio: {
-        'echoCancellation': true
-    },
-}
-
-navigator
-    .mediaDevices
-    .getUserMedia(mediaConstraints)
-    .then(stream => {
-        myFace.srcObject = stream;
-        localStream = stream;
-        setTimeout(() => {
-            SOCKET.emit('rtc:call', ROOM_ID, USERNAME);
-        }, 2 * 1000);
-    })
-    .catch(err => {
-        console.error(err);
-    })
-
 SOCKET.on('connect', () => {
     SOCKET.emit('room:join', ROOM_ID);
+})
+
+SOCKET.on('freddy:meme', (data) => {
+    const meme_div = `<div><span style="background-image: url('${data['meme']}')"></span></div>`
+    document.getElementById('chatBox').appendChild(meme_div);
 })
 
 // music route start
 //
 SOCKET.on('freddy:music:data', data => {
-    console.log(data);
-    if (!freddy.paused)
-        freddy.pause();
-    freddy.src = data.url;
-    SOCKET.emit('freddy:music:all_set', ROOM_ID);
-
-    // display info
-    //
-    freddyMusicImg.src = data.image;
-    freddyMusicInfo.innerText = data.title;
+    try{
+        console.log(data);
+        if (!freddy.paused)
+            freddy.pause();
+        freddy.src = data.url;
+        if(data['s_all'])
+            SOCKET.emit('freddy:music:all_set', ROOM_ID);
+        else
+            freddy.play();
+        // display info
+        //
+        freddyMusicImg.src = data.image;
+        freddyMusicInfo.innerText = data.title;
+    }catch(e){
+        console.error(e);
+    }
+    
 })
 
 SOCKET.on('freddy:music:play', play => {
     if (freddy.paused)
         freddy.play();
 });
+
 
 SOCKET.on('freddy:kind', data => {
     /******************
@@ -176,15 +179,15 @@ SOCKET.on('user:left', (id) => {
 
 SOCKET.on('joined', () => {
     console.log('joined');
-    
 
-    setTimeout(() => { 
+
+    setTimeout(() => {
         SOCKET.emit('freddy', {
             rid: ROOM_ID,
             line: '$help',
         });
     }, 500);
-    
+
     SOCKET.on('rtc:call', async(id, uname) => {
         console.log(`${id} calling...`);
 
@@ -194,6 +197,7 @@ SOCKET.on('joined', () => {
     SOCKET.on('rtc:offer', CALL_ON_OFFER);
 
     SOCKET.on('rtc:answer', async(id, sdp) => {
+        console.log(`${id}-sdp-${sdp}`);
         peerConns[id].setRemoteDescription(sdp)
             .then(remoteDesSuc, remoteDesFail);
     })
@@ -203,13 +207,14 @@ SOCKET.on('joined', () => {
             .then(() => console.log('successfully candidate added'), () => console.log('failed to add candidate'));
     })
 
-    SOCKET.on('rtc:re-negotiate-media-offer', async(sid, sdp, uname) => {
+    SOCKET.on('rtc:re-negotiate-media-offer', async(sid, sdp) => {
         try {
             console.log('rtc:re-negotiating-media-offer-received');
             // adding my stream here
-            localStream.getTracks().forEach(track => {
-                peerConns[sid].addTrack(track, localStream);
-            })
+
+            peerConns[sid].ontrack = ({ streams }) => {
+                handleTracks(streams, sid);
+            }
 
             peerConns[sid].setRemoteDescription(sdp)
                 .then(remoteDesSuc, remoteDesFail);
@@ -227,6 +232,10 @@ SOCKET.on('joined', () => {
             localStream.getTracks().forEach(track => {
                 peerConns[sid].addTrack(track, localStream);
             })
+
+            peerConns[sid].ontrack = ({ streams }) => {
+                handleTracks(streams, sid);
+            }
 
             CREATE_OFFER(sid, 'rtc:re-negotiate-media-offer');
         } catch (e) {
@@ -277,7 +286,7 @@ function createVideoElement(id, uname) {
 
 function handleTracks(streams, id) {
     console.log(id + ': ', streams[0]);
-    
+
     let vid_remote = document.getElementById('vid-' + id);
     vid_remote.srcObject = null;
     vid_remote.srcObject = streams[0];
@@ -354,7 +363,7 @@ function INIT_USER_RTC_CONNECTION(id, uname, cb) {
         handleIceCandidate(evt, id);
     };
 
-    rtcConn.ontrack = ({ track, streams }) => {
+    rtcConn.ontrack = ({ streams }) => {
         handleTracks(streams, id);
     }
 
@@ -372,7 +381,11 @@ function CREATE_OFFER(id, sEvent = null) {
                 sdp: sdp,
                 username: USERNAME
             });
-        }, () => console.log('failed to create offer'));
+        }, () => xx_catch_xx({
+            t: 'ERR',
+            message: 'Failed to establish user cam connection',
+            heading: 'freddy: Error'
+        }));
 }
 
 function CALL_ON_OFFER(id, sdp, uname) {
@@ -390,6 +403,7 @@ function OFFER_RESPONSE_ANS(id, sEvent = null) {
         .then((sdp) => {
             peerConns[id].setLocalDescription(sdp)
                 .then(localDesSuc, localDesFail);
+            
             SOCKET.emit(sEvent, {
                 to: id,
                 sdp: sdp,
@@ -399,32 +413,78 @@ function OFFER_RESPONSE_ANS(id, sEvent = null) {
         });
 }
 
-function reNegotiateMedia(type = null) {
+async function INIT_RTC_CONN (){
+    try{
+        if(typeof(navigator.mediaDevices.getUserMedia) == 'undefined'){
+            xx_catch_xx({
+                t: 'ERR',
+                heading: 'Error: Require SSL', 
+                message: 'Not a secure site <br /> We failed to access your devices <br /> for video/audio chat',
+            })
+
+            return;
+        }
+        const deviceList = await navigator.mediaDevices.enumerateDevices();
+        deviceList.forEach(d => console.log(d.kind));
+
+        mediaConstraints['video'] = deviceList.findIndex(device => device.kind === 'videoinput') > -1 ? true : false;
+        mediaConstraints['auido'] = deviceList.findIndex(device => device.kind === 'audioinput') > -1 ? true : false;
+
+        if(!mediaConstraints['video'])
+            xx_catch_xx({
+                t: 'ERR',
+                heading: 'Freddy', 
+                message: 'camera access denied',
+            })
+        
+        if(!mediaConstraints['audio'])
+            xx_catch_xx({
+                t: 'ERR',
+                heading: 'Freddy', 
+                message: 'microphone access denied',
+            })
+
+        console.log(mediaConstraints);
+        const stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
+        localStream = stream;
+        myFace.srcObject = stream;
+
+        SOCKET.emit('rtc:call', ROOM_ID, USERNAME);
+    }catch(e){
+        console.error(e);
+        xx_catch_xx({
+            t: 'ERR',
+            heading: 'Error', 
+            message: e.message,
+        })
+    }
+}
+
+async function reNegotiateMedia(type = null) {
     if (type != null) {
         mediaConstraints[type] = mediaConstraints[type] ? false : true;
         console.log('re-nego-init');
         console.log('type- ', type, mediaConstraints);
+    
+        if(typeof(navigator.mediaDevices.getUserMedia()) == 'undefined') return;
 
-        navigator
-            .mediaDevices
-            .getUserMedia(mediaConstraints)
-            .then(stream => {
-                myFace.srcObject = stream;
-                localStream = null;
-                localStream = stream;
+        const stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
 
-                setTimeout(() => {
-                    // for test 
-                    // console.log
-                    console.log('local--> ', localStream.getTracks());
-                    SOCKET.emit('rtc:re-negotiate-media', ROOM_ID, USERNAME);
-                }, 1000);
-            })
-            .catch(err => {
-                console.error(err);
-            })
+        myFace.srcObject = null;
+        localStream = null;
+
+        myFace.srcObject = stream;
+        localStream = stream;
+
+        setTimeout(() => {
+            SOCKET.emit('rtc:re-negotiate-media', ROOM_ID, USERNAME);
+        }, 400);
     } else
-        console.log('type: null');
+        xx_catch_xx({
+            t: 'ERR',
+            heading: 'Freddy: Media Error',
+            message: 'could not switch media'
+        })
 }
 
 /*******
@@ -511,7 +571,7 @@ function vslz(se, myCan) {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        let bw = cwidth / (analyser.frequencyBinCount/4);
+        let bw = cwidth / (analyser.frequencyBinCount / 4);
         let bh;
         let bx = 0;
         let gap = 10;
@@ -519,17 +579,17 @@ function vslz(se, myCan) {
 
         console.log('ana_freq_bit_count> ', analyser.frequencyBinCount);
 
-        for (var i = 0; i < analyser.frequencyBinCount; i+=jump) {
+        for (var i = 0; i < analyser.frequencyBinCount; i += jump) {
             bh = array[i] / 1.5;
-            if (caps.length < analyser.frequencyBinCount/jump) {
+            if (caps.length < analyser.frequencyBinCount / jump) {
                 caps.push(bh);
             };
 
             ctx.fillStyle = '#fff';
             if (bh < caps[i]) {
-                ctx.fillRect((i/jump) * bw + gap, cheight - (--caps[i] / 1.6), bw, 1);
+                ctx.fillRect((i / jump) * bw + gap, cheight - (--caps[i] / 1.6), bw, 1);
             } else {
-                ctx.fillRect((i/jump) * bw + gap, cheight - bh / 1.6, bw, 1);
+                ctx.fillRect((i / jump) * bw + gap, cheight - bh / 1.6, bw, 1);
                 caps[i] = bh;
             };
 
@@ -544,6 +604,4 @@ function vslz(se, myCan) {
 
 };
 
-
-
-
+INIT_RTC_CONN();

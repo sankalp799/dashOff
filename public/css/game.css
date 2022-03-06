@@ -156,8 +156,7 @@ select {
 GAME-STYLE
 ***********/
 
-.count_down_audio,
-audio {
+.count_down_audio {
     display: none;
 }
 
@@ -185,10 +184,18 @@ audio {
     width: 15%;
     height: 90%;
     margin-right: 1px;
+    
+}
+
+.chat-wrapper>div{
+    height: fit-content;
 }
 
 .players>div {
     width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .chat-wrapper>div:nth-child(odd),
@@ -198,7 +205,6 @@ audio {
 }
 
 .players div,
-.chat-wrapper div,
 .overlay-main-content div {
     height: 12%;
     display: flex;
@@ -209,7 +215,7 @@ audio {
 
 .chat-wrapper>div {
     padding: 0px 5px;
-    height: 8%;
+    height: fit-content;
     margin: 0;
     padding: 0;
     padding-left: 2px;
@@ -340,6 +346,14 @@ canvas {
 .chat-wrapper>div img {
     position: relative;
     width: 10%;
+}
+
+.chat-wrapper>div span{
+    height: 100%;
+    width: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .user-avatar {
@@ -889,7 +903,7 @@ video {
     position: relative;
     border: none;
     left: 0%;
-    top; 0%;
+    top: 0%;
     height: 40%;
     padding: 10px 20px;
     margin: 5px;
@@ -994,7 +1008,7 @@ FREDDY-STYLES
     top: 50%;
 	transform: translate(-50%, -50%);
 	width: 35%;
-	height: fit-content%;
+	height: fit-content;
 	display: none;
 	transition: 450ms ease-in-out;
 	background-color: #00A300;
@@ -1059,8 +1073,13 @@ FREDDY-STYLES
 }
 
 
-
-
-
-
-
+#freddyMusicBot{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 20%;
+    top: -5%;
+    left: 100%;
+    height: 25%;
+    
+}
