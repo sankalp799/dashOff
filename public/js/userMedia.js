@@ -604,4 +604,6 @@ function vslz(se, myCan) {
 
 };
 
-INIT_RTC_CONN();
+setTimeout(() => {
+    INIT_RTC_CONN()
+}, 2000)
